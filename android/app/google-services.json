@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "694743188846",
+    "firebase_url": "https://informateach-e6cc4-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "informateach-e6cc4",
+    "storage_bucket": "informateach-e6cc4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:694743188846:android:1bf1606e232e443a53ed7f",
+        "android_client_info": {
+          "package_name": "com.example.informateach"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxLeXxNHz_cwpiuh7IRIRL5IuEkR6RPZ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
