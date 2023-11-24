@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:informateach/dosen/dialog/cancel.dart';
 import 'package:informateach/dosen/database/db.dart';
+import 'package:informateach/dosen/dialog/delete.dart';
 import 'package:informateach/dosen/dialog/validate.dart';
 
 class ScheduleDosen extends StatefulWidget {
@@ -365,21 +366,33 @@ class _ScheduleDosenState extends State<ScheduleDosen> {
                             SizedBox(
                               width: 150,
                             ),
-                            Container(
-                              width: 60,
-                              height: 16,
-                              decoration: ShapeDecoration(
-                                  color: Color(0xFF27374D),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(5))),
-                              child: Text(
-                                "Delete",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontFamily: 'Quicksand',
-                                    fontWeight: FontWeight.bold,
-                                    color: Color(0xFFFF0000),
-                                    fontSize: 12),
+                            GestureDetector(
+                              onTap: () {
+                                ticketDelDoc =
+                                    "${ticket['dosen']}-${ticket['day']}-${ticket['time']}";
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return DeleteTicketDialog();
+                                    });
+                              },
+                              child: Container(
+                                width: 60,
+                                height: 16,
+                                decoration: ShapeDecoration(
+                                    color: Color(0xFF27374D),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(5))),
+                                child: Text(
+                                  "Delete",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontFamily: 'Quicksand',
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(0xFFFF0000),
+                                      fontSize: 12),
+                                ),
                               ),
                             )
                           ],

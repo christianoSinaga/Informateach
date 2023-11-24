@@ -302,6 +302,12 @@ class _MyAppMahasiswaState extends State<MyAppMahasiswa> {
     checkDeviceToken();
   }
 
+  final List<Widget> bottomBarPages = [
+    HomepageMahasiswa(),
+    TicketMahasiswaPage(),
+    ProfilePage(),
+  ];
+
   @override
   Widget build(BuildContext context) {
     getCurrentUser();
@@ -314,19 +320,17 @@ class _MyAppMahasiswaState extends State<MyAppMahasiswa> {
               indexPage = index;
             });
           },
-          children: [
-            HomepageMahasiswa(),
-            TicketMahasiswaPage(),
-            ProfilePage(),
-          ],
+          children: List.generate(
+              bottomBarPages.length, (index) => bottomBarPages[index]),
         ),
         extendBody: true,
         bottomNavigationBar: AnimatedNotchBottomBar(
           notchBottomBarController: _controller,
           onTap: (index) {
+            _controller.jumpTo(index);
             _pageController.animateToPage(index,
-                duration: const Duration(milliseconds: 250),
-                curve: Curves.bounceInOut);
+                duration: Duration(milliseconds: 400),
+                curve: Curves.decelerate);
             setState(() {
               indexPage = index;
             });
@@ -1658,6 +1662,61 @@ class _TicketMahasiswaPageState extends State<TicketMahasiswaPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (listTicket.isEmpty) {
+      return Column(
+        children: [
+          SizedBox(height: 30),
+          Container(
+            width: 458,
+            height: 75,
+            decoration: const BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Color(0x3F000000),
+                  offset: Offset(0, 4),
+                  spreadRadius: 0,
+                  blurRadius: 4,
+                ),
+              ],
+              color: Colors.white,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                GestureDetector(
+                  onTap: () {},
+                  child: const Text(
+                    "AVAILABLE",
+                    style: TextStyle(
+                      fontFamily: 'Quicksand',
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Image.asset("style/img/Line 2.png"),
+                GestureDetector(
+                  onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => HistoryTicketPage())),
+                  child: Text(
+                    "HISTORY",
+                    style: TextStyle(
+                      color: Colors.black.withOpacity(0.2),
+                      fontSize: 20,
+                      fontFamily: 'Quicksand',
+                      fontWeight: FontWeight.w700,
+                      height: 0,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
+    }
     return Scaffold(
       body: ListView.builder(
         itemCount: listTicket.length,
@@ -1770,7 +1829,7 @@ class _TicketMahasiswaPageState extends State<TicketMahasiswaPage> {
                             ),
                           ),
                           Text(
-                            "$dayName, ${dayDetails[0]}",
+                            "$dayName, ${dayDetails[0]}, ${data['time']} WIB",
                             style: const TextStyle(
                               fontFamily: 'Quicksand',
                               fontSize: 10,
@@ -1878,7 +1937,7 @@ class _TicketMahasiswaPageState extends State<TicketMahasiswaPage> {
                           ),
                         ),
                         Text(
-                          "$dayName, ${dayDetails[0]}",
+                          "$dayName, ${dayDetails[0]}, ${data['time']} WIB",
                           style: const TextStyle(
                             fontFamily: 'Quicksand',
                             fontSize: 10,
@@ -2167,7 +2226,7 @@ class _HistoryTicketPageState extends State<HistoryTicketPage> {
                             ),
                           ),
                           Text(
-                            "$dayName, ${dayDetails[0]}",
+                            "$dayName, ${dayDetails[0]}, ${data['time']} WIB",
                             style: const TextStyle(
                               fontFamily: 'Quicksand',
                               fontSize: 10,
@@ -2262,7 +2321,7 @@ class _HistoryTicketPageState extends State<HistoryTicketPage> {
                           ),
                         ),
                         Text(
-                          "$dayName, ${dayDetails[0]}",
+                          "$dayName, ${dayDetails[0]}, ${data['time']} WIB",
                           style: const TextStyle(
                             fontFamily: 'Quicksand',
                             fontSize: 10,

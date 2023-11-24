@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.informateach.app-mergeDebugResources-5:/values/values.xml",
+            "outputFile": "com.example.informateach.app-mergeDebugResources-27:/values/values.xml",
             "map": [
                 {
                     "source": "C:\\Users\\Iyes\\.gradle\\caches\\transforms-3\\d2a7f03e118140f639e8945afb58cddb\\transformed\\jetified-startup-runtime-1.1.1\\res\\values\\values.xml",
@@ -110,25 +110,6 @@
                     }
                 },
                 {
-                    "source": "C:\\Code\\Mobile\\Belajar\\Flutter\\informateach\\informateach\\android\\app\\src\\main\\res\\values\\styles.xml",
-                    "from": {
-                        "startLines": "3,14",
-                        "startColumns": "4,4",
-                        "startOffsets": "176,832",
-                        "endLines": "7,16",
-                        "endColumns": "12,12",
-                        "endOffsets": "483,998"
-                    },
-                    "to": {
-                        "startLines": "154,158",
-                        "startColumns": "4,4",
-                        "startOffsets": "10820,11001",
-                        "endLines": "157,160",
-                        "endColumns": "12,12",
-                        "endOffsets": "10996,11165"
-                    }
-                },
-                {
                     "source": "C:\\Users\\Iyes\\.gradle\\caches\\transforms-3\\a82db410cebe27c9879106e746eca4ec\\transformed\\jetified-activity-1.7.2\\res\\values\\values.xml",
                     "from": {
                         "startLines": "2,3",
@@ -194,6 +175,25 @@
                         "startOffsets": "7209",
                         "endColumns": "49",
                         "endOffsets": "7254"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Iyes\\Documents\\GitHub\\informateach-clone\\android\\app\\src\\main\\res\\values\\styles.xml",
+                    "from": {
+                        "startLines": "3,14",
+                        "startColumns": "4,4",
+                        "startOffsets": "176,832",
+                        "endLines": "7,16",
+                        "endColumns": "12,12",
+                        "endOffsets": "483,998"
+                    },
+                    "to": {
+                        "startLines": "154,158",
+                        "startColumns": "4,4",
+                        "startOffsets": "10820,11001",
+                        "endLines": "157,160",
+                        "endColumns": "12,12",
+                        "endOffsets": "10996,11165"
                     }
                 },
                 {

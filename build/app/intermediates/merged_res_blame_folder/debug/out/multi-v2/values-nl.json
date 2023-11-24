@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.informateach.app-mergeDebugResources-5:/values-nl/values-nl.xml",
+            "outputFile": "com.example.informateach.app-mergeDebugResources-27:/values-nl/values-nl.xml",
             "map": [
                 {
                     "source": "C:\\Users\\Iyes\\.gradle\\caches\\transforms-3\\aba8f806953ea3dd8f794da3aeb78a12\\transformed\\jetified-play-services-base-18.0.1\\res\\values-nl\\values.xml",

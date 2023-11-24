@@ -14,20 +14,20 @@
 14    -->
 15
 16    <uses-permission android:name="android.permission.INTERNET" />
-16-->C:\Code\Mobile\Belajar\Flutter\informateach\informateach\android\app\src\debug\AndroidManifest.xml:7:5-66
-16-->C:\Code\Mobile\Belajar\Flutter\informateach\informateach\android\app\src\debug\AndroidManifest.xml:7:22-64
+16-->C:\Users\Iyes\Documents\GitHub\informateach-clone\android\app\src\debug\AndroidManifest.xml:7:5-66
+16-->C:\Users\Iyes\Documents\GitHub\informateach-clone\android\app\src\debug\AndroidManifest.xml:7:22-64
 17    <uses-permission android:name="android.permission.VIBRATE" />
-17-->C:\Code\Mobile\Belajar\Flutter\informateach\informateach\android\app\src\debug\AndroidManifest.xml:8:5-66
-17-->C:\Code\Mobile\Belajar\Flutter\informateach\informateach\android\app\src\debug\AndroidManifest.xml:8:22-63
+17-->C:\Users\Iyes\Documents\GitHub\informateach-clone\android\app\src\debug\AndroidManifest.xml:8:5-66
+17-->C:\Users\Iyes\Documents\GitHub\informateach-clone\android\app\src\debug\AndroidManifest.xml:8:22-63
 18    <uses-permission android:name="android.permission.WAKE_LOCK" />
-18-->[:firebase_messaging] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:10:5-68
-18-->[:firebase_messaging] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:10:22-65
+18-->[:firebase_messaging] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:10:5-68
+18-->[:firebase_messaging] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:10:22-65
 19    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- Permissions options for the `notification` group -->
-19-->[:firebase_messaging] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:11:5-79
-19-->[:firebase_messaging] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:11:22-76
+19-->[:firebase_messaging] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:11:5-79
+19-->[:firebase_messaging] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:11:22-76
 20    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" /> <!-- Required by older versions of Google Play services to create IID tokens -->
-20-->[:firebase_messaging] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:13:5-77
-20-->[:firebase_messaging] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:13:22-74
+20-->[:firebase_messaging] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:13:5-77
+20-->[:firebase_messaging] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:13:22-74
 21    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 21-->[com.google.firebase:firebase-messaging:23.3.1] C:\Users\Iyes\.gradle\caches\transforms-3\824d9827bcbbf2ab133fdd9882894bf1\transformed\jetified-firebase-messaging-23.3.1\AndroidManifest.xml:26:5-82
 21-->[com.google.firebase:firebase-messaging:23.3.1] C:\Users\Iyes\.gradle\caches\transforms-3\824d9827bcbbf2ab133fdd9882894bf1\transformed\jetified-firebase-messaging-23.3.1\AndroidManifest.xml:26:22-79
@@ -100,43 +100,43 @@
 82        </receiver>
 83
 84        <service
-84-->[:firebase_auth] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
+84-->[:firebase_auth] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-14:19
 85            android:name="com.google.firebase.components.ComponentDiscoveryService"
-85-->[:firebase_auth] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:10:18-89
+85-->[:firebase_auth] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:10:18-89
 86            android:directBootAware="true"
 86-->[com.google.firebase:firebase-common:20.4.2] C:\Users\Iyes\.gradle\caches\transforms-3\e7d9dc77e05549f012842a2b34d6bb45\transformed\jetified-firebase-common-20.4.2\AndroidManifest.xml:32:13-43
 87            android:exported="false" >
 87-->[com.google.firebase:firebase-auth:22.2.0] C:\Users\Iyes\.gradle\caches\transforms-3\e2985a72aa3bbd89cdc07e779b53a1db\transformed\jetified-firebase-auth-22.2.0\AndroidManifest.xml:68:13-37
 88            <meta-data
-88-->[:firebase_auth] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
+88-->[:firebase_auth] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
 89                android:name="com.google.firebase.components:io.flutter.plugins.firebase.auth.FlutterFirebaseAuthRegistrar"
-89-->[:firebase_auth] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-124
+89-->[:firebase_auth] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-124
 90                android:value="com.google.firebase.components.ComponentRegistrar" />
-90-->[:firebase_auth] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
+90-->[:firebase_auth] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
 91            <meta-data
-91-->[:firebase_storage] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_storage\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
+91-->[:firebase_storage] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_storage\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
 92                android:name="com.google.firebase.components:io.flutter.plugins.firebase.storage.FlutterFirebaseAppRegistrar"
-92-->[:firebase_storage] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_storage\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-126
+92-->[:firebase_storage] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_storage\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-126
 93                android:value="com.google.firebase.components.ComponentRegistrar" />
-93-->[:firebase_storage] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_storage\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
+93-->[:firebase_storage] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_storage\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
 94            <meta-data
-94-->[:cloud_firestore] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
+94-->[:cloud_firestore] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
 95                android:name="com.google.firebase.components:io.flutter.plugins.firebase.firestore.FlutterFirebaseFirestoreRegistrar"
-95-->[:cloud_firestore] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-134
+95-->[:cloud_firestore] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-134
 96                android:value="com.google.firebase.components.ComponentRegistrar" />
-96-->[:cloud_firestore] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
+96-->[:cloud_firestore] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
 97            <meta-data
-97-->[:firebase_messaging] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:38:13-40:85
+97-->[:firebase_messaging] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:38:13-40:85
 98                android:name="com.google.firebase.components:io.flutter.plugins.firebase.messaging.FlutterFirebaseAppRegistrar"
-98-->[:firebase_messaging] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:39:17-128
+98-->[:firebase_messaging] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:39:17-128
 99                android:value="com.google.firebase.components.ComponentRegistrar" />
-99-->[:firebase_messaging] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:40:17-82
+99-->[:firebase_messaging] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:40:17-82
 100            <meta-data
-100-->[:firebase_core] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
+100-->[:firebase_core] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-13:85
 101                android:name="com.google.firebase.components:io.flutter.plugins.firebase.core.FlutterFirebaseCoreRegistrar"
-101-->[:firebase_core] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-124
+101-->[:firebase_core] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:12:17-124
 102                android:value="com.google.firebase.components.ComponentRegistrar" />
-102-->[:firebase_core] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
+102-->[:firebase_core] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:13:17-82
 103            <meta-data
 103-->[com.google.firebase:firebase-auth:22.2.0] C:\Users\Iyes\.gradle\caches\transforms-3\e2985a72aa3bbd89cdc07e779b53a1db\transformed\jetified-firebase-auth-22.2.0\AndroidManifest.xml:69:13-71:85
 104                android:name="com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar"
@@ -229,69 +229,69 @@
 147-->[com.google.firebase:firebase-datatransport:18.1.7] C:\Users\Iyes\.gradle\caches\transforms-3\1b4ad2325bb4a983f364027acea0daeb\transformed\jetified-firebase-datatransport-18.1.7\AndroidManifest.xml:29:17-82
 148        </service>
 149        <service
-149-->[:firebase_messaging] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:16:9-19:72
+149-->[:firebase_messaging] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:16:9-19:72
 150            android:name="io.flutter.plugins.firebase.messaging.FlutterFirebaseMessagingBackgroundService"
-150-->[:firebase_messaging] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:17:13-107
+150-->[:firebase_messaging] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:17:13-107
 151            android:exported="false"
-151-->[:firebase_messaging] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:18:13-37
+151-->[:firebase_messaging] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:18:13-37
 152            android:permission="android.permission.BIND_JOB_SERVICE" />
-152-->[:firebase_messaging] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:19:13-69
+152-->[:firebase_messaging] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:19:13-69
 153        <service
-153-->[:firebase_messaging] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:20:9-26:19
+153-->[:firebase_messaging] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:20:9-26:19
 154            android:name="io.flutter.plugins.firebase.messaging.FlutterFirebaseMessagingService"
-154-->[:firebase_messaging] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:21:13-97
+154-->[:firebase_messaging] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:21:13-97
 155            android:exported="false" >
-155-->[:firebase_messaging] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:22:13-37
+155-->[:firebase_messaging] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:22:13-37
 156            <intent-filter>
-156-->[:firebase_messaging] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:23:13-25:29
+156-->[:firebase_messaging] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:23:13-25:29
 157                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-157-->[:firebase_messaging] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:24:17-78
-157-->[:firebase_messaging] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:24:25-75
+157-->[:firebase_messaging] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:24:17-78
+157-->[:firebase_messaging] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:24:25-75
 158            </intent-filter>
 159        </service>
 160
 161        <receiver
-161-->[:firebase_messaging] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:28:9-35:20
+161-->[:firebase_messaging] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:28:9-35:20
 162            android:name="io.flutter.plugins.firebase.messaging.FlutterFirebaseMessagingReceiver"
-162-->[:firebase_messaging] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:29:13-98
+162-->[:firebase_messaging] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:29:13-98
 163            android:exported="true"
-163-->[:firebase_messaging] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:30:13-36
+163-->[:firebase_messaging] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:30:13-36
 164            android:permission="com.google.android.c2dm.permission.SEND" >
-164-->[:firebase_messaging] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:31:13-73
+164-->[:firebase_messaging] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:31:13-73
 165            <intent-filter>
-165-->[:firebase_messaging] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:32:13-34:29
+165-->[:firebase_messaging] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:32:13-34:29
 166                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-166-->[:firebase_messaging] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:33:17-81
-166-->[:firebase_messaging] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:33:25-78
+166-->[:firebase_messaging] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:33:17-81
+166-->[:firebase_messaging] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:33:25-78
 167            </intent-filter>
 168        </receiver>
 169
 170        <provider
-170-->[:firebase_messaging] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:43:9-47:38
+170-->[:firebase_messaging] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:43:9-47:38
 171            android:name="io.flutter.plugins.firebase.messaging.FlutterFirebaseMessagingInitProvider"
-171-->[:firebase_messaging] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:44:13-102
+171-->[:firebase_messaging] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:44:13-102
 172            android:authorities="com.example.informateach.flutterfirebasemessaginginitprovider"
-172-->[:firebase_messaging] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:45:13-88
+172-->[:firebase_messaging] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:45:13-88
 173            android:exported="false"
-173-->[:firebase_messaging] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:46:13-37
+173-->[:firebase_messaging] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:46:13-37
 174            android:initOrder="99" />
-174-->[:firebase_messaging] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:47:13-35
+174-->[:firebase_messaging] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:47:13-35
 175        <provider
-175-->[:image_picker_android] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-18:20
+175-->[:image_picker_android] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-18:20
 176            android:name="io.flutter.plugins.imagepicker.ImagePickerFileProvider"
-176-->[:image_picker_android] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-82
+176-->[:image_picker_android] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-82
 177            android:authorities="com.example.informateach.flutter.image_provider"
-177-->[:image_picker_android] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:12:13-74
+177-->[:image_picker_android] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:12:13-74
 178            android:exported="false"
-178-->[:image_picker_android] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:13:13-37
+178-->[:image_picker_android] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:13:13-37
 179            android:grantUriPermissions="true" >
-179-->[:image_picker_android] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:14:13-47
+179-->[:image_picker_android] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:14:13-47
 180            <meta-data
-180-->[:image_picker_android] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:15:13-17:75
+180-->[:image_picker_android] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:15:13-17:75
 181                android:name="android.support.FILE_PROVIDER_PATHS"
-181-->[:image_picker_android] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:16:17-67
+181-->[:image_picker_android] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:16:17-67
 182                android:resource="@xml/flutter_image_picker_file_paths" />
-182-->[:image_picker_android] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:17:17-72
+182-->[:image_picker_android] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:17:17-72
 183        </provider>
 184
 185        <activity
@@ -374,10 +374,10 @@
 225            android:permission="com.google.android.c2dm.permission.SEND" >
 225-->[com.google.firebase:firebase-messaging:23.3.1] C:\Users\Iyes\.gradle\caches\transforms-3\824d9827bcbbf2ab133fdd9882894bf1\transformed\jetified-firebase-messaging-23.3.1\AndroidManifest.xml:32:13-73
 226            <intent-filter>
-226-->[:firebase_messaging] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:32:13-34:29
+226-->[:firebase_messaging] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:32:13-34:29
 227                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-227-->[:firebase_messaging] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:33:17-81
-227-->[:firebase_messaging] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:33:25-78
+227-->[:firebase_messaging] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:33:17-81
+227-->[:firebase_messaging] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:33:25-78
 228            </intent-filter>
 229
 230            <meta-data
@@ -400,10 +400,10 @@
 241            android:exported="false" >
 241-->[com.google.firebase:firebase-messaging:23.3.1] C:\Users\Iyes\.gradle\caches\transforms-3\824d9827bcbbf2ab133fdd9882894bf1\transformed\jetified-firebase-messaging-23.3.1\AndroidManifest.xml:49:13-37
 242            <intent-filter android:priority="-500" >
-242-->[:firebase_messaging] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:23:13-25:29
+242-->[:firebase_messaging] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:23:13-25:29
 243                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-243-->[:firebase_messaging] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:24:17-78
-243-->[:firebase_messaging] C:\Code\Mobile\Belajar\Flutter\informateach\informateach\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:24:25-75
+243-->[:firebase_messaging] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:24:17-78
+243-->[:firebase_messaging] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\firebase_messaging\intermediates\merged_manifest\debug\AndroidManifest.xml:24:25-75
 244            </intent-filter>
 245        </service>
 246

@@ -75,6 +75,8 @@ class _CancelTicketDialogState extends State<CancelTicketDialog> {
     final studentMessage = {
       'to': ticket['studentToken'],
       'data': {
+        'id': ticketCancelDoc.hashCode,
+        'action': 'cancel',
         'title': title,
         'body': studentMessageBody,
         'priority': 'high',
@@ -88,6 +90,8 @@ class _CancelTicketDialogState extends State<CancelTicketDialog> {
     final dosenMessage = {
       'to': ticket['dosenToken'],
       'data': {
+        'id': ticketCancelDoc.hashCode,
+        'action': 'cancel',
         'title': title,
         'body': dosenMessageBody,
         'priority': 'high',
