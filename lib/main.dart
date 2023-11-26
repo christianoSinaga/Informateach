@@ -119,7 +119,7 @@ Future<void> scheduleNotification({
       id,
       'Scheduled Notif',
       'Anda memiliki pertemuan 1 jam lagi. Ketuk untuk melihat lebih lanjut',
-      time,
+      scheduledTime,
       platformChannelSpecifics,
       androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
       uiLocalNotificationDateInterpretation:
@@ -171,8 +171,6 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     message.data['body'] ?? 'Notification Body',
     int.tryParse(message.data['id'] ?? '0') ?? 0,
   );
-
-  _checkPendingNotificationRequests();
 }
 
 Future<void> main() async {
@@ -207,7 +205,6 @@ Future<void> main() async {
       message.data['body'] ?? 'Notification Body',
       int.tryParse(message.data['id'] ?? '0') ?? 0,
     );
-    _checkPendingNotificationRequests();
   });
   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
     // Handling when the app is opened from a terminated state
@@ -218,8 +215,6 @@ Future<void> main() async {
       message.notification?.body ?? 'Notification Body',
       int.tryParse(message.data['id'] ?? '0') ?? 0,
     );
-
-    _checkPendingNotificationRequests();
   });
 
   //BACKGROUND SITUATION
@@ -1636,7 +1631,7 @@ class _TicketMahasiswaPageState extends State<TicketMahasiswaPage> {
           var dosenData = dosenQuery.docs.first.data() as Map<String, dynamic>;
 
           // Tambahkan properti 'dosenNama' dan 'dosenGambar' ke tiket
-          ticketData['dosen'] = dosenData['Name'];
+          ticketData['dosenNama'] = dosenData['Name'];
           ticketData['dosenGambar'] = dosenData['Image'];
         }
       }
@@ -1821,7 +1816,7 @@ class _TicketMahasiswaPageState extends State<TicketMahasiswaPage> {
                         children: [
                           const SizedBox(height: 33),
                           Text(
-                            data["dosen"]!,
+                            data["dosenNama"]!,
                             style: const TextStyle(
                               fontFamily: 'Quicksand',
                               fontSize: 13,
@@ -1858,6 +1853,8 @@ class _TicketMahasiswaPageState extends State<TicketMahasiswaPage> {
                                             BorderRadius.circular(100),
                                       )),
                                   onPressed: () {
+                                    ticketMahasiswaCancel =
+                                        "${data['dosen']}-${data['day']}-${data['time']}";
                                     showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
@@ -1929,7 +1926,7 @@ class _TicketMahasiswaPageState extends State<TicketMahasiswaPage> {
                       children: [
                         const SizedBox(height: 33),
                         Text(
-                          data["dosen"]!,
+                          data["dosenNama"]!,
                           style: const TextStyle(
                             fontFamily: 'Quicksand',
                             fontSize: 13,
@@ -1965,6 +1962,8 @@ class _TicketMahasiswaPageState extends State<TicketMahasiswaPage> {
                                       borderRadius: BorderRadius.circular(100),
                                     )),
                                 onPressed: () {
+                                  ticketMahasiswaCancel =
+                                      "${data['dosen']}-${data['day']}-${data['time']}";
                                   showDialog(
                                       context: context,
                                       builder: (BuildContext context) {

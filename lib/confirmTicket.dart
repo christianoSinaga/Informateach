@@ -334,35 +334,40 @@ class _ConfirmTicketState extends State<ConfirmTicket> {
             ),
             GestureDetector(
               onTap: () async {
-                getCurrentUser();
+                await getCurrentUser();
                 String ticketDoc =
                     "${selectedDosen['Email']}-$finalSelectedDay-$finalSelectedTime";
                 int notificationId = ticketDoc.hashCode;
                 // MENGUBAH DOKUMEN TIKET
-                // await editTicket(
-                //   ticketDoc: ticketDoc,
-                //   studentEmail: currentUser['Email'],
-                //   purpose: ticket['Purpose'],
-                // );
-
-                // MENGIRIM NOTIFIKASI
-                sendNotification(
-                    id: notificationId,
-                    action: 'create',
-                    studentToken: currentUser['Token'],
-                    dosenToken: selectedDosen['Token'],
-                    title: "Ticket Created",
-                    day: finalSelectedDay,
-                    time: finalSelectedTime,
-                    studentMessageBody:
-                        "Tiket berhasil dibuat untuk ${selectedDosen['Name']}",
-                    dosenMessageBody:
-                        "Seseorang telah membuat janji dengan anda!. Ketuk untuk melihat!");
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return ConfirmTicketDialog();
-                    });
+                if (DateTime.now().isAfter(
+                  (currentUser['Freeze Date'] as Timestamp).toDate(),
+                )) {
+                  await editTicket(
+                    ticketDoc: ticketDoc,
+                    studentEmail: currentUser['Email'],
+                    purpose: ticket['Purpose'],
+                  );
+                  // MENGIRIM NOTIFIKASI
+                  sendNotification(
+                      id: notificationId,
+                      action: 'create',
+                      studentToken: currentUser['Token'],
+                      dosenToken: selectedDosen['Token'],
+                      title: "Ticket Created",
+                      day: finalSelectedDay,
+                      time: finalSelectedTime,
+                      studentMessageBody:
+                          "Tiket berhasil dibuat untuk ${selectedDosen['Name']}",
+                      dosenMessageBody:
+                          "Seseorang telah membuat janji dengan anda!. Ketuk untuk melihat!");
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return ConfirmTicketDialog();
+                      });
+                } else {
+                  print("MAHASISWA SEDANG DIBANNED");
+                }
               },
               child: Container(
                   width: 400,

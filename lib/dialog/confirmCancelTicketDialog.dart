@@ -52,11 +52,6 @@ class _ConfirmCancelTicketDialogState extends State<ConfirmCancelTicketDialog> {
                       )),
                   onPressed: () {
                     Navigator.pop(context);
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => MyAppMahasiswa(initialPage: 0),
-                        ));
                   },
                   child: Text(
                     "HOME",
