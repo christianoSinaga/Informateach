@@ -14,12 +14,12 @@ import 'package:informateach/auth/auth.dart';
 import 'package:informateach/createTicket.dart';
 import 'package:informateach/dialog/cancelTicketDialog.dart';
 import 'package:informateach/dosen/database/db.dart';
+import 'package:informateach/dosen/dialog/freezed_acc.dart';
 import 'package:informateach/utils.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:workmanager/workmanager.dart';
 import 'firebase_options.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
@@ -112,8 +112,7 @@ Future<void> scheduleNotification({
     DateTime formatedDate = DateTime.parse(dayOnly[0] + ' ' + hour!);
     DateTime fixDate = formatedDate.subtract(Duration(hours: 1));
     var scheduledTime = tz.TZDateTime.from(fixDate, tz.local);
-    var time =
-        tz.TZDateTime.from(DateTime.now().add(Duration(seconds: 5)), tz.local);
+
     //CREATE SCHEDULED NOTIFICATION
     await flutterLocalNotificationsPlugin.zonedSchedule(
       id,
@@ -173,8 +172,83 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   );
 }
 
+//MENGECEK TICKET
+Future<void> checkTicketStatus() async {
+  try {
+    var ticketRef = await FirebaseFirestore.instance
+        .collection('tickets')
+        .where('available', isEqualTo: false)
+        .get();
+    for (var ticket in ticketRef.docs) {
+      List<String> dayOnly = ticket['day'].split(' ');
+      DateTime schedule = DateTime.parse('${dayOnly[0]} ' + ticket['time']);
+      if (DateTime.now().isAfter(schedule.add(Duration(hours: 1))) &&
+          ticket['status'] == 'Waiting for validation') {
+        print(schedule);
+        await FirebaseFirestore.instance
+            .collection('tickets')
+            .doc("${ticket['dosen']}-${ticket['day']}-${ticket['time']}")
+            .update({
+          'status': 'Not Validated',
+        });
+        var students = await FirebaseFirestore.instance
+            .collection('users')
+            .where('Email', isEqualTo: ticket['studentEmail'])
+            .get();
+        if (students.docs.isNotEmpty) {
+          var studentRef = students.docs.first.reference;
+          var studentData = students.docs.first.data();
+          //MENGECEK JUMLAH TIKET YANG DIBATALKAN MAHASISWA
+          //APABILA JUMLAH TIKET YANG DIBATALKAN BELUM MENCAPAI MAKSIMAL
+          if (studentData['Cancelled Tickets'] != 3) {
+            int cancelledTickets = studentData['Cancelled Tickets'] ?? 0;
+            await studentRef.update({
+              'Cancelled Tickets': (cancelledTickets + 1),
+            });
+            if (cancelledTickets == 2) {
+              await studentRef.update({
+                'Freeze Date': DateTime.now().add(Duration(days: 1)),
+              });
+            }
+          } else {
+            //MEMERIKSA KONDISI MAHASISWA APAKAH SUDAH MELEWATI MASA FREEZED ACC
+            //KONDISI SUDAH MELEWATI
+            if (DateTime.now().isAfter(
+              (studentData['Freeze Date'] as Timestamp).toDate(),
+            )) {
+              //MERESET JUMLAH TIKET YANG DIBATALKAN
+              studentRef.update({
+                'Cancelled Tickets': 1,
+              });
+            }
+          }
+        }
+      }
+    }
+    print("Test");
+  } catch (e) {
+    print(e);
+  }
+}
+
+void callbackDispatcher() {
+  WidgetsFlutterBinding.ensureInitialized();
+  Firebase.initializeApp().then((_) async {
+    await checkTicketStatus();
+    Workmanager().executeTask((task, inputData) async {
+      // Task yang akan dijalankan saat pekerjaan latar belakang dipicu
+      await checkTicketStatus();
+      return Future.value(true);
+    });
+  });
+}
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   tz.initializeTimeZones();
   tz.setLocalLocation(tz.getLocation('Asia/Jakarta'));
 
@@ -220,8 +294,11 @@ Future<void> main() async {
   //BACKGROUND SITUATION
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+  Workmanager().initialize(callbackDispatcher, isInDebugMode: true);
+  Workmanager().registerPeriodicTask(
+    '1',
+    'checkTicketStatus',
+    frequency: Duration(minutes: 15),
   );
   runApp(const MyApp());
 }
@@ -396,6 +473,7 @@ class _HomepageMahasiswaState extends State<HomepageMahasiswa> {
   late List<Map<String, dynamic>> listDosen = [];
   late TextEditingController searchController = TextEditingController();
   List<Map<String, dynamic>> filteredDosenList = [];
+  bool userCheck = FirebaseAuth.instance.currentUser!.emailVerified;
 
   Future<void> fetchDosenList() async {
     List<Map<String, dynamic>> dosen = await getListDosen();
@@ -405,8 +483,10 @@ class _HomepageMahasiswaState extends State<HomepageMahasiswa> {
     });
   }
 
+  @override
   void initState() {
     super.initState();
+    getCurrentUser();
     fetchDosenList();
   }
 
@@ -462,6 +542,26 @@ class _HomepageMahasiswaState extends State<HomepageMahasiswa> {
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
+                if (!userCheck) {
+                  if (index == 0) {
+                    return Container(
+                      margin:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                      child: Center(
+                        child: Text(
+                          "Mohon lakukan verifikasi email terlebih dahulu",
+                          style: TextStyle(
+                            fontFamily: 'Quicksand',
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
+                    );
+                  } else {
+                    return SizedBox();
+                  }
+                }
+                ;
                 if (filteredDosenList.isEmpty) {
                   return Container(
                     margin: EdgeInsets.only(top: 19, left: 20, right: 20),
@@ -683,22 +783,20 @@ class _HomepageMahasiswaState extends State<HomepageMahasiswa> {
                               ),
                             ),
                             const SizedBox(width: 20),
-                            Center(
+                            Expanded(
                               child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Container(
-                                    margin: const EdgeInsets.only(top: 38),
-                                    child: Text(
-                                      data["Name"]!,
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 15,
-                                        fontFamily: 'Quicksand',
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                      textAlign: TextAlign.center,
-                                      maxLines: 2,
+                                  Text(
+                                    data["Name"]!,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15,
+                                      fontFamily: 'Quicksand',
                                     ),
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.center,
+                                    maxLines: 3,
                                   ),
                                   Text(
                                     data["NIM"]!,
@@ -714,6 +812,9 @@ class _HomepageMahasiswaState extends State<HomepageMahasiswa> {
                                 ],
                               ),
                             ),
+                            SizedBox(
+                              width: 20,
+                            )
                           ],
                         ),
                       ));
@@ -721,9 +822,6 @@ class _HomepageMahasiswaState extends State<HomepageMahasiswa> {
                   return GestureDetector(
                       onTap: () {
                         idDosen = data["Email"]!;
-                        setState(() {
-                          showBottomNavBar = false;
-                        });
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -767,22 +865,20 @@ class _HomepageMahasiswaState extends State<HomepageMahasiswa> {
                               ),
                             ),
                             const SizedBox(width: 20),
-                            Center(
+                            Expanded(
                               child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Container(
-                                    margin: const EdgeInsets.only(top: 38),
-                                    child: Text(
-                                      data["Name"]!,
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 15,
-                                        fontFamily: 'Quicksand',
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                      textAlign: TextAlign.center,
-                                      maxLines: 2,
+                                  Text(
+                                    data["Name"]!,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15,
+                                      fontFamily: 'Quicksand',
                                     ),
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.center,
+                                    maxLines: 2,
                                   ),
                                   Text(
                                     data["NIM"]!,
@@ -798,6 +894,9 @@ class _HomepageMahasiswaState extends State<HomepageMahasiswa> {
                                 ],
                               ),
                             ),
+                            SizedBox(
+                              width: 20,
+                            )
                           ],
                         ),
                       ));
@@ -820,25 +919,6 @@ class AboutDosen extends StatefulWidget {
   State<AboutDosen> createState() => _AboutDosenState();
 }
 
-// Future<Map<String, dynamic>> getSelectedDosen(String email) async {
-//   try {
-//     var dosenQuery = await FirebaseFirestore.instance
-//         .collection('users')
-//         .where('Email', isEqualTo: email)
-//         .get();
-
-//     if (dosenQuery.docs.isNotEmpty) {
-//       Map<String, dynamic> dosenData = dosenQuery.docs.first.data();
-//       return dosenData;
-//     } else {
-//       throw Exception("No Dosen Found");
-//     }
-//   } catch (e) {
-//     print(e);
-//     rethrow;
-//   }
-// }
-
 class _AboutDosenState extends State<AboutDosen> {
   String idDosenNow = idDosen;
   Map<String, dynamic> selectedDosen = {'temp': 'temp'};
@@ -853,6 +933,7 @@ class _AboutDosenState extends State<AboutDosen> {
   void initState() {
     super.initState();
     fetchSelectedDosen();
+    getCurrentUser();
   }
 
   @override
@@ -888,20 +969,23 @@ class _AboutDosenState extends State<AboutDosen> {
             child: Center(
                 child: Column(
           children: [
-            Image.network(
-              selectedDosen["Image"] ?? 'style/img/DefaultIcon.png',
-              width: 101,
-              height: 138,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                // Handle error loading image
-                return Image.asset(
-                  'style/img/DefaultIcon.png',
-                  width: 101,
-                  height: 138,
-                  fit: BoxFit.cover,
-                );
-              },
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Image.network(
+                selectedDosen["Image"] ?? 'style/img/DefaultIcon.png',
+                width: 101,
+                height: 138,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  // Handle error loading image
+                  return Image.asset(
+                    'style/img/DefaultIcon.png',
+                    width: 101,
+                    height: 138,
+                    fit: BoxFit.cover,
+                  );
+                },
+              ),
             ),
             const SizedBox(
               height: 19,
@@ -1650,6 +1734,7 @@ class _TicketMahasiswaPageState extends State<TicketMahasiswaPage> {
     });
   }
 
+  @override
   void initState() {
     super.initState();
     fetchTicketList();
@@ -1853,12 +1938,22 @@ class _TicketMahasiswaPageState extends State<TicketMahasiswaPage> {
                                             BorderRadius.circular(100),
                                       )),
                                   onPressed: () {
-                                    ticketMahasiswaCancel =
-                                        "${data['dosen']}-${data['day']}-${data['time']}";
+                                    if (DateTime.now().isAfter(
+                                        (currentUser['Freeze Date']
+                                                as Timestamp)
+                                            .toDate())) {
+                                      ticketMahasiswaCancel =
+                                          "${data['dosen']}-${data['day']}-${data['time']}";
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return CancelTicketDialog();
+                                          });
+                                    }
                                     showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
-                                          return CancelTicketDialog();
+                                          return FreezedWarning();
                                         });
                                   },
                                   child: Text(
@@ -2049,6 +2144,7 @@ class _HistoryTicketPageState extends State<HistoryTicketPage> {
     });
   }
 
+  @override
   void initState() {
     super.initState();
     fetchTicketList();

@@ -123,7 +123,6 @@ class _ScheduleDosenState extends State<ScheduleDosen> {
   @override
   Widget build(BuildContext context) {
     getCurrentDosen();
-    fetchListTicket();
     return Scaffold(
       body: CustomScrollView(slivers: <Widget>[
         SliverAppBar(

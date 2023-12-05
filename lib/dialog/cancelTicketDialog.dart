@@ -3,9 +3,9 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
-import 'package:informateach/dialog/confirmCancelTicketDialog.dart';
+
 import 'package:informateach/dosen/database/db.dart';
 import 'package:http/http.dart' as http;
 
@@ -19,6 +19,9 @@ class CancelTicketDialog extends StatefulWidget {
 }
 
 class _CancelTicketDialogState extends State<CancelTicketDialog> {
+  final ticketCounts = currentUser['Cancelled Tickets'] == 3
+      ? 0
+      : currentUser['Cancelled Tickets'];
   //MENDAPATKAN TOKEN DARI MAHASISWA DAN DOSEN YANG DIBUTUHKAN UNTUK MENGIRIM NOTIFIKASI
   Future<Map<String, dynamic>> getTicket() async {
     final CollectionReference ticketRefference =
@@ -219,7 +222,7 @@ class _CancelTicketDialogState extends State<CancelTicketDialog> {
                 height: 11,
               ),
               Text(
-                "Ticket cancellations can only be made a maximum of 1 hour before the meeting time with the lecturer. Please confirm again!",
+                "You already cancelled $ticketCounts tickets. If you already cancelled 3 tickets, your account will be banned",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: 'Quicksand',

@@ -105,6 +105,25 @@ class _CreateTicketState extends State<CreateTicket> {
     });
   }
 
+  Future<void> bookTicket({required String ticketDoc}) async {
+    try {
+      var ticketRef = await FirebaseFirestore.instance
+          .collection('tickets')
+          .doc(ticketDoc)
+          .get();
+      if (ticketRef.exists) {
+        await FirebaseFirestore.instance
+            .collection('tickets')
+            .doc(ticketDoc)
+            .update({
+          'available': false,
+        });
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   Future<void> fetchSelectedDosen() async {
     Map<String, dynamic> selectedDosenTmp = await getSelectedDosen(idDosen);
     setState(() {
@@ -124,7 +143,14 @@ class _CreateTicketState extends State<CreateTicket> {
         DateTime.now().year, DateTime.now().month, DateTime.now().day);
     var sunday = _getSunday(now);
     for (int i = 0; i < 7; i++) {
-      currentWeek.add(sunday.add(Duration(days: i)).toString());
+      String dayname = sunday.add(Duration(days: i)).toString();
+      String status;
+      if (now.isAfter(DateTime.parse(dayname))) {
+        status = 'LAMPAU';
+      } else {
+        status = 'BELUM';
+      }
+      currentWeek.add('$dayname     $status');
     }
     return currentWeek;
   }
@@ -169,20 +195,23 @@ class _CreateTicketState extends State<CreateTicket> {
                 ),
                 child: Row(
                   children: [
-                    Image.network(
-                      selectedDosen["Image"] ?? 'style/img/DefaultIcon.png',
-                      width: 101,
-                      height: 138,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) {
-                        // Handle error loading image
-                        return Image.asset(
-                          'style/img/DefaultIcon.png',
-                          width: 101,
-                          height: 138,
-                          fit: BoxFit.cover,
-                        );
-                      },
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.network(
+                        selectedDosen["Image"] ?? 'style/img/DefaultIcon.png',
+                        width: 101,
+                        height: 138,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          // Handle error loading image
+                          return Image.asset(
+                            'style/img/DefaultIcon.png',
+                            width: 101,
+                            height: 138,
+                            fit: BoxFit.cover,
+                          );
+                        },
+                      ),
                     ),
                     const SizedBox(width: 20),
                     Center(
@@ -275,15 +304,19 @@ class _CreateTicketState extends State<CreateTicket> {
                   child: SingleChildScrollView(
                     child: Column(
                         children: dosenSchedule.map((day) {
-                      String dayName = getDayName(day);
-                      bool isSelected = selectedDay == day;
+                      List dayDetails = day.split('     ');
+                      String dayName = getDayName(dayDetails[0]);
+                      bool isPassed = dayDetails[1] == 'LAMPAU';
+                      bool isSelected = selectedDay == dayDetails[0];
                       return Padding(
                         padding: const EdgeInsets.all(8),
                         child: GestureDetector(
                           onTap: () {
-                            setState(() {
-                              selectedDay = day;
-                            });
+                            if (!isPassed) {
+                              setState(() {
+                                selectedDay = dayDetails[0];
+                              });
+                            }
                             fetchDosenSchedule();
                           },
                           child: Container(
@@ -292,7 +325,9 @@ class _CreateTicketState extends State<CreateTicket> {
                             decoration: ShapeDecoration(
                                 color: isSelected
                                     ? const Color(0xFF3687E5)
-                                    : Colors.white,
+                                    : isPassed
+                                        ? const Color(0xFF27374D)
+                                        : Colors.white,
                                 shape: RoundedRectangleBorder(
                                     side: const BorderSide(
                                         color: Color(0xFFD9D9D9), width: 1),
@@ -301,8 +336,9 @@ class _CreateTicketState extends State<CreateTicket> {
                                 child: Text(
                               dayName,
                               style: TextStyle(
-                                  color:
-                                      isSelected ? Colors.white : Colors.black,
+                                  color: isSelected || isPassed
+                                      ? Colors.white
+                                      : Colors.black,
                                   fontFamily: 'Quicksand',
                                   fontSize: 15,
                                   fontWeight: FontWeight.w600),
@@ -423,6 +459,9 @@ class _CreateTicketState extends State<CreateTicket> {
                 dosen = selectedDosen['Email'];
                 finalPurpose = _purposeController.text;
                 finalSelectedDay = selectedDay;
+                String ticketDoc =
+                    "${selectedDosen['Email']}-$selectedDay-$selectedTime";
+                bookTicket(ticketDoc: ticketDoc);
 
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => ConfirmTicket()));

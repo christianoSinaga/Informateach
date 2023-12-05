@@ -3,8 +3,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:informateach/auth/acc_auth.dart';
+import 'package:informateach/dosen/database/db.dart';
 import 'package:informateach/dosen/landingPage.dart';
 import 'package:informateach/main.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 class Auth extends StatelessWidget {
   const Auth({super.key});

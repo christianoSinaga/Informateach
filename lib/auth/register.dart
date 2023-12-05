@@ -21,21 +21,27 @@ class _RegisterPageState extends State<RegisterPage> {
 
   //Sign Up Function
   Future signUp() async {
-    await FirebaseAuth.instance.createUserWithEmailAndPassword(
-      email: _emailController.text.trim(),
-      password: _passwordController.text.trim(),
-    );
+    if (passwordMatch()) {
+      //MEMBUAT AKUN USER
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
 
-    String? token = await FirebaseMessaging.instance.getToken();
+      String? token = await FirebaseMessaging.instance.getToken();
 
-    // Calling User Document Function
-    createUser(
-        _emailController.text.trim(),
-        _nameController.text.trim(),
-        _nimController.text.trim(),
-        _phoneNumberController.text.trim(),
-        isStudent(_emailController.text.trim()),
-        token!);
+      // Calling User Document Function
+
+      createUser(
+          _emailController.text.trim(),
+          _nameController.text.trim(),
+          _nimController.text.trim(),
+          _phoneNumberController.text.trim(),
+          isStudent(_emailController.text.trim()),
+          token!);
+
+      sendEmailVerification();
+    }
   }
 
   //Create User Document Function
@@ -48,7 +54,23 @@ class _RegisterPageState extends State<RegisterPage> {
       'Phone Number': phoneNumber,
       'Student': role,
       'Token': token,
+      'Freeze Date': DateTime.now(),
     });
+  }
+
+  //Check PassWord Confirm
+  bool passwordMatch() {
+    if (_passwordController.text == _confirmPasswordController.text) {
+      return true;
+    }
+    return false;
+  }
+
+  //Send Email Verification
+  Future<void> sendEmailVerification() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    await user?.sendEmailVerification();
+    print('Email konfirmasi telah dikirim.');
   }
 
   //Checking User Type
