@@ -1,0 +1,4 @@
+#Tue Dec 05 22:06:13 WIB 2023
+base.0=C\:\\Users\\Iyes\\Documents\\GitHub\\informateach-clone\\build\\app\\intermediates\\dex\\release\\minifyReleaseWithR8\\classes.dex
+path.0=classes.dex
+renamed.0=classes.dex

@@ -1,0 +1,17 @@
+dev.fluttercommunity.workmanager-sqlite-2.3.0-0 C:\Users\Iyes\.gradle\caches\transforms-3\0958d32493ae3c8aaeac51c2caec6a73\transformed\sqlite-2.3.0\res
+dev.fluttercommunity.workmanager-jetified-window-1.0.0-beta04-1 C:\Users\Iyes\.gradle\caches\transforms-3\25cee5f028ac2a6b79fd6278ff5b59e2\transformed\jetified-window-1.0.0-beta04\res
+dev.fluttercommunity.workmanager-jetified-startup-runtime-1.0.0-2 C:\Users\Iyes\.gradle\caches\transforms-3\51ebb132c7fa329ff7b390804f6d4148\transformed\jetified-startup-runtime-1.0.0\res
+dev.fluttercommunity.workmanager-jetified-annotation-experimental-1.1.0-3 C:\Users\Iyes\.gradle\caches\transforms-3\6c0c163cc77ae6c91f9f7dfcd179c29c\transformed\jetified-annotation-experimental-1.1.0\res
+dev.fluttercommunity.workmanager-sqlite-framework-2.3.0-4 C:\Users\Iyes\.gradle\caches\transforms-3\6dbb62a6957bb937e6f540cd8d74d0eb\transformed\sqlite-framework-2.3.0\res
+dev.fluttercommunity.workmanager-core-1.6.0-5 C:\Users\Iyes\.gradle\caches\transforms-3\7e9df2ac2213a6bd3cef0f2f27870d79\transformed\core-1.6.0\res
+dev.fluttercommunity.workmanager-work-runtime-2.8.1-6 C:\Users\Iyes\.gradle\caches\transforms-3\9b7489e46b6dc84e7cac115e3d51e0ae\transformed\work-runtime-2.8.1\res
+dev.fluttercommunity.workmanager-jetified-window-java-1.0.0-beta04-7 C:\Users\Iyes\.gradle\caches\transforms-3\ae81e06d24c799147c26814497a2a305\transformed\jetified-window-java-1.0.0-beta04\res
+dev.fluttercommunity.workmanager-room-runtime-2.5.0-8 C:\Users\Iyes\.gradle\caches\transforms-3\e2498991e22bb740a57c1ad90873250d\transformed\room-runtime-2.5.0\res
+dev.fluttercommunity.workmanager-main-9 C:\Users\Iyes\AppData\Local\Pub\Cache\hosted\pub.dev\workmanager-0.5.2\android\src\main\res
+dev.fluttercommunity.workmanager-release-10 C:\Users\Iyes\AppData\Local\Pub\Cache\hosted\pub.dev\workmanager-0.5.2\android\src\release\res
+dev.fluttercommunity.workmanager-pngs-11 C:\Users\Iyes\Documents\GitHub\informateach-clone\build\workmanager\generated\res\pngs\release
+dev.fluttercommunity.workmanager-resValues-12 C:\Users\Iyes\Documents\GitHub\informateach-clone\build\workmanager\generated\res\resValues\release
+dev.fluttercommunity.workmanager-rs-13 C:\Users\Iyes\Documents\GitHub\informateach-clone\build\workmanager\generated\res\rs\release
+dev.fluttercommunity.workmanager-mergeReleaseResources-14 C:\Users\Iyes\Documents\GitHub\informateach-clone\build\workmanager\intermediates\incremental\release\mergeReleaseResources\merged.dir
+dev.fluttercommunity.workmanager-mergeReleaseResources-15 C:\Users\Iyes\Documents\GitHub\informateach-clone\build\workmanager\intermediates\incremental\release\mergeReleaseResources\stripped.dir
+dev.fluttercommunity.workmanager-merged_res-16 C:\Users\Iyes\Documents\GitHub\informateach-clone\build\workmanager\intermediates\merged_res\release
