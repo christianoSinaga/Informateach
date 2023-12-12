@@ -22,6 +22,7 @@ import 'firebase_options.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
+import 'package:showcaseview/showcaseview.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -383,69 +384,73 @@ class _MyAppMahasiswaState extends State<MyAppMahasiswa> {
   @override
   Widget build(BuildContext context) {
     getCurrentUser();
-    return Scaffold(
-        body: PageView(
-          controller: _pageController,
-          onPageChanged: (index) {
-            _controller.jumpTo(index);
-            setState(() {
-              indexPage = index;
-            });
-          },
-          children: List.generate(
-              bottomBarPages.length, (index) => bottomBarPages[index]),
-        ),
-        extendBody: true,
-        bottomNavigationBar: AnimatedNotchBottomBar(
-          notchBottomBarController: _controller,
-          onTap: (index) {
-            _controller.jumpTo(index);
-            _pageController.animateToPage(index,
-                duration: Duration(milliseconds: 400),
-                curve: Curves.decelerate);
-            setState(() {
-              indexPage = index;
-            });
-          },
-          color: Colors.white,
-          showLabel: false,
-          notchColor: Colors.black87,
-          bottomBarItems: const [
-            BottomBarItem(
-              inActiveItem: Icon(
-                Icons.calendar_month,
-                color: Colors.blueGrey,
+    return Showcase(
+      key: GlobalKey(),
+      description: 'Test',
+      child: Scaffold(
+          body: PageView(
+            controller: _pageController,
+            onPageChanged: (index) {
+              _controller.jumpTo(index);
+              setState(() {
+                indexPage = index;
+              });
+            },
+            children: List.generate(
+                bottomBarPages.length, (index) => bottomBarPages[index]),
+          ),
+          extendBody: true,
+          bottomNavigationBar: AnimatedNotchBottomBar(
+            notchBottomBarController: _controller,
+            onTap: (index) {
+              _controller.jumpTo(index);
+              _pageController.animateToPage(index,
+                  duration: Duration(milliseconds: 400),
+                  curve: Curves.decelerate);
+              setState(() {
+                indexPage = index;
+              });
+            },
+            color: Colors.white,
+            showLabel: false,
+            notchColor: Colors.black87,
+            bottomBarItems: [
+              BottomBarItem(
+                inActiveItem: Icon(
+                  Icons.calendar_month,
+                  color: Colors.blueGrey,
+                ),
+                activeItem: Icon(
+                  Icons.calendar_month,
+                  color: Colors.blueAccent,
+                ),
+                itemLabel: 'Schedule',
               ),
-              activeItem: Icon(
-                Icons.calendar_month,
-                color: Colors.blueAccent,
+              BottomBarItem(
+                inActiveItem: Icon(
+                  Icons.confirmation_number,
+                  color: Colors.blueGrey,
+                ),
+                activeItem: Icon(
+                  Icons.confirmation_number,
+                  color: Colors.blueAccent,
+                ),
+                itemLabel: 'Ticket',
               ),
-              itemLabel: 'Schedule',
-            ),
-            BottomBarItem(
-              inActiveItem: Icon(
-                Icons.confirmation_number,
-                color: Colors.blueGrey,
-              ),
-              activeItem: Icon(
-                Icons.confirmation_number,
-                color: Colors.blueAccent,
-              ),
-              itemLabel: 'Ticket',
-            ),
-            BottomBarItem(
-              inActiveItem: Icon(
-                Icons.person,
-                color: Colors.blueGrey,
-              ),
-              activeItem: Icon(
-                Icons.person,
-                color: Colors.blueAccent,
-              ),
-              itemLabel: 'Profile',
-            )
-          ],
-        ));
+              BottomBarItem(
+                inActiveItem: Icon(
+                  Icons.person,
+                  color: Colors.blueGrey,
+                ),
+                activeItem: Icon(
+                  Icons.person,
+                  color: Colors.blueAccent,
+                ),
+                itemLabel: 'Profile',
+              )
+            ],
+          )),
+    );
   }
 }
 
