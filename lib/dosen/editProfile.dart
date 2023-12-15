@@ -32,7 +32,7 @@ class _EditProfileDosenState extends State<EditProfileDosen> {
       if (dosenQuery.docs.isNotEmpty) {
         var userDocument =
             dosenQuery.docs.first.reference; // Mendapatkan referensi dokumen
-        if (img != null) {
+        if (img == null) {
           await userDocument.update({
             'Name': name,
             'Phone Number': phone,

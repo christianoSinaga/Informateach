@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:informateach/confirmTicket.dart';
+import 'package:informateach/dialog/dialogError.dart';
 import 'package:informateach/dosen/confirmSchedule.dart';
 import 'package:informateach/dosen/database/db.dart';
 import 'package:informateach/dosen/navbarConnected/profile.dart';
@@ -57,14 +58,30 @@ class _AddTicketState extends State<AddTicket> {
   final EasyInfiniteDateTimelineController _controller =
       EasyInfiniteDateTimelineController();
   late var _focusDate = DateTime.now();
-  bool userCheck = FirebaseAuth.instance.currentUser!.emailVerified;
+  late bool dosenCheck = false;
+  void refreshDosenCheck() async {
+    await FirebaseAuth.instance.currentUser!.reload();
+    bool dosenCheckTmp = await FirebaseAuth.instance.currentUser!.emailVerified;
+    print("Merefresh status dosen");
+    setState(() {
+      dosenCheck = dosenCheckTmp;
+      print("Status Dosen terrefresh $dosenCheck");
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getCurrentDosen();
+  }
 
   @override
   Widget build(BuildContext context) {
+    refreshDosenCheck();
     final sunday = _getSunday(_focusDate);
     return Scaffold(
       body: SingleChildScrollView(
-        child: !userCheck
+        child: !dosenCheck
             ? Column(
                 children: [
                   SizedBox(
@@ -195,9 +212,14 @@ class _AddTicketState extends State<AddTicket> {
                     lastDate: sunday.add(const Duration(days: 6)),
                     showTimelineHeader: false,
                     onDateChange: (selectedDate) {
-                      setState(() {
-                        _focusDate = selectedDate;
-                      });
+                      if (DateTime.now().day > selectedDate.day) {
+                        dialogErrorHandling(
+                            context, "Selected day has been passed");
+                      } else {
+                        setState(() {
+                          _focusDate = selectedDate;
+                        });
+                      }
                     },
                   ),
                   const SizedBox(

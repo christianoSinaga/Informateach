@@ -8,14 +8,6 @@ import 'package:informateach/dosen/editProfile.dart';
 import 'package:informateach/dosen/landingPage.dart';
 import 'package:informateach/utils.dart';
 
-Map<String, String> dosenNow = {
-  "Email": "gheasekar@unesa.ac.id",
-  "Name": "Ghea Sekar Palupi, S.Kom., M.I.M",
-  "NIP": "123456789123456",
-  "Phone": "123456789123",
-  "Gender": "Female",
-};
-
 class ProfileDosen extends StatefulWidget {
   const ProfileDosen({super.key});
 
@@ -91,7 +83,7 @@ class _ProfileDosenState extends State<ProfileDosen> {
                 child: const Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Name",
+                    "Email",
                     style: TextStyle(
                       fontFamily: 'Quicksand',
                       fontSize: 15,
@@ -110,6 +102,9 @@ class _ProfileDosenState extends State<ProfileDosen> {
             ),
 
             //Name Dosen Container
+            const SizedBox(
+              height: 15,
+            ),
             Container(
                 margin: const EdgeInsets.only(left: 28),
                 child: const Align(
@@ -134,12 +129,15 @@ class _ProfileDosenState extends State<ProfileDosen> {
             ),
 
             //NIP Dosen Container
+            const SizedBox(
+              height: 15,
+            ),
             Container(
                 margin: const EdgeInsets.only(left: 28),
                 child: const Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "NIP",
+                    "NIDN/NIP",
                     style: TextStyle(
                       fontFamily: 'Quicksand',
                       fontSize: 15,

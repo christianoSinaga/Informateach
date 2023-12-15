@@ -6,6 +6,7 @@ import 'package:informateach/dosen/dialog/cancel.dart';
 import 'package:informateach/dosen/database/db.dart';
 import 'package:informateach/dosen/dialog/delete.dart';
 import 'package:informateach/dosen/dialog/validate.dart';
+import 'package:informateach/dosen/tutorial/tutorial_page.dart';
 
 class ScheduleDosen extends StatefulWidget {
   const ScheduleDosen({super.key});
@@ -115,15 +116,33 @@ class _ScheduleDosenState extends State<ScheduleDosen> {
   //STATES MANAGEMENT
   @override
   void initState() {
+    getCurrentDosen();
     super.initState();
     getCurrentWeek();
-    fetchListTicket();
   }
 
   @override
   Widget build(BuildContext context) {
-    getCurrentDosen();
+    fetchListTicket();
     return Scaffold(
+      extendBody: true,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Logika ketika tombol ditekan
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const DosenTutorialPage()),
+          );
+        },
+        backgroundColor:
+            const Color(0xFF3687E5), // Sesuaikan dengan warna yang diinginkan
+        child: Icon(Icons.help_outline),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      bottomNavigationBar: Container(
+        color: Colors.transparent,
+        height: 100,
+      ),
       body: CustomScrollView(slivers: <Widget>[
         SliverAppBar(
           backgroundColor: const Color.fromRGBO(29, 55, 77, .4),
@@ -210,7 +229,7 @@ class _ScheduleDosenState extends State<ScheduleDosen> {
   Widget _buildTicket(Map<String, dynamic> ticket) {
     return Container(
       width: 323,
-      height: 80,
+      height: 100,
       margin: EdgeInsets.only(bottom: 15),
       decoration: ShapeDecoration(
         color: Color.fromARGB(255, 235, 240, 245),
@@ -249,7 +268,7 @@ class _ScheduleDosenState extends State<ScheduleDosen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                height: 5,
+                height: 10,
               ),
               Text(
                 ticket['studentName'] == null
@@ -285,7 +304,7 @@ class _ScheduleDosenState extends State<ScheduleDosen> {
                 children: (ticket['status'] == 'Waiting for validation')
                     ? [
                         SizedBox(
-                          width: 65,
+                          width: 40,
                         ),
                         GestureDetector(
                           onTap: () {
@@ -298,20 +317,21 @@ class _ScheduleDosenState extends State<ScheduleDosen> {
                                 });
                           },
                           child: Container(
-                            width: 78,
-                            height: 16,
+                            width: 93,
+                            height: 30,
                             decoration: ShapeDecoration(
                                 color: Color(0xFF27374D),
                                 shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5))),
-                            child: Text(
-                              "Validate",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontFamily: 'Quicksand',
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFF3687E5),
-                                  fontSize: 12),
+                                    borderRadius: BorderRadius.circular(10))),
+                            child: Center(
+                              child: Text(
+                                "Validate",
+                                style: TextStyle(
+                                    fontFamily: 'Quicksand',
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                    fontSize: 13),
+                              ),
                             ),
                           ),
                         ),
@@ -329,41 +349,50 @@ class _ScheduleDosenState extends State<ScheduleDosen> {
                                 });
                           },
                           child: Container(
-                            width: 60,
-                            height: 16,
+                            width: 75,
+                            height: 30,
                             decoration: ShapeDecoration(
-                                color: Color(0xFF27374D),
+                                color: Color(0xFFFF0000),
                                 shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5))),
-                            child: Text(
-                              "Cancel",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontFamily: 'Quicksand',
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFFFF0000),
-                                  fontSize: 12),
+                                    borderRadius: BorderRadius.circular(10))),
+                            child: Center(
+                              child: Text(
+                                "Cancel",
+                                style: TextStyle(
+                                    fontFamily: 'Quicksand',
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                    fontSize: 13),
+                              ),
                             ),
                           ),
                         )
                       ]
                     : (ticket['status'] == 'Validated' ||
-                            ticket['status'] == 'Cancelled')
+                            ticket['status'] == 'Cancelled' ||
+                            ticket['status'] == 'Not Validated')
                         ? [
                             SizedBox(
-                              width: 140,
+                              width: ticket['status'] == 'Not Validated'
+                                  ? 120
+                                  : 140,
                             ),
-                            Text("${ticket['status']}",
-                                style: TextStyle(
-                                    color: ticket['status'] == 'Validated'
-                                        ? const Color(0xFF0165FC)
-                                        : const Color(0xFFFF0000),
-                                    fontFamily: 'Quicksand',
-                                    fontWeight: FontWeight.w600)),
+                            Column(children: [
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text("${ticket['status']}",
+                                  style: TextStyle(
+                                      color: ticket['status'] == 'Validated'
+                                          ? const Color(0xFF0165FC)
+                                          : const Color(0xFFFF0000),
+                                      fontFamily: 'Quicksand',
+                                      fontWeight: FontWeight.w600)),
+                            ]),
                           ]
                         : [
                             SizedBox(
-                              width: 150,
+                              width: 140,
                             ),
                             GestureDetector(
                               onTap: () {
@@ -376,21 +405,22 @@ class _ScheduleDosenState extends State<ScheduleDosen> {
                                     });
                               },
                               child: Container(
-                                width: 60,
-                                height: 16,
+                                width: 70,
+                                height: 30,
                                 decoration: ShapeDecoration(
-                                    color: Color(0xFF27374D),
+                                    color: Color(0xFFFF0000),
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
-                                            BorderRadius.circular(5))),
-                                child: Text(
-                                  "Delete",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontFamily: 'Quicksand',
-                                      fontWeight: FontWeight.bold,
-                                      color: Color(0xFFFF0000),
-                                      fontSize: 12),
+                                            BorderRadius.circular(10))),
+                                child: Center(
+                                  child: Text(
+                                    "Delete",
+                                    style: TextStyle(
+                                        fontFamily: 'Quicksand',
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                        fontSize: 13),
+                                  ),
                                 ),
                               ),
                             )

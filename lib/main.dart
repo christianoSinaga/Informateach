@@ -5,6 +5,7 @@ import 'dart:typed_data';
 
 import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -13,8 +14,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:informateach/auth/auth.dart';
 import 'package:informateach/createTicket.dart';
 import 'package:informateach/dialog/cancelTicketDialog.dart';
+import 'package:informateach/dialog/dialogError.dart';
 import 'package:informateach/dosen/database/db.dart';
 import 'package:informateach/dosen/dialog/freezed_acc.dart';
+import 'package:informateach/tutorial/tutorial_page.dart';
 import 'package:informateach/utils.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:workmanager/workmanager.dart';
@@ -22,7 +25,6 @@ import 'firebase_options.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
-import 'package:showcaseview/showcaseview.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -230,6 +232,32 @@ Future<void> checkTicketStatus() async {
   } catch (e) {
     print(e);
   }
+  try {
+    var ticketRef = await FirebaseFirestore.instance
+        .collection('tickets')
+        .where('available', isEqualTo: true)
+        .get();
+    for (var ticket in ticketRef.docs) {
+      List<String> dayOnly = ticket['day'].split(' ');
+      DateTime schedule = DateTime.parse('${dayOnly[0]} ' + ticket['time']);
+      if (DateTime.now().isAfter(schedule)) {
+        //MENGHAPUS TIKET JIKA SUDAH TERLEWAT DAN MASIH TERSEDIA
+        print("Menghapus tiket karena sudah terlewat");
+        try {
+          DocumentReference documentReference = FirebaseFirestore.instance
+              .collection('tickets')
+              .doc("${ticket['dosen']}-${ticket['day']}-${ticket['time']}");
+
+          await documentReference.delete();
+          print("Jadwal Kosong Terhapus");
+        } catch (e) {
+          print("Gagal menghapus tiket: $e");
+        }
+      }
+    }
+  } catch (e) {
+    print(e);
+  }
 }
 
 void callbackDispatcher() {
@@ -384,73 +412,69 @@ class _MyAppMahasiswaState extends State<MyAppMahasiswa> {
   @override
   Widget build(BuildContext context) {
     getCurrentUser();
-    return Showcase(
-      key: GlobalKey(),
-      description: 'Test',
-      child: Scaffold(
-          body: PageView(
-            controller: _pageController,
-            onPageChanged: (index) {
-              _controller.jumpTo(index);
-              setState(() {
-                indexPage = index;
-              });
-            },
-            children: List.generate(
-                bottomBarPages.length, (index) => bottomBarPages[index]),
-          ),
-          extendBody: true,
-          bottomNavigationBar: AnimatedNotchBottomBar(
-            notchBottomBarController: _controller,
-            onTap: (index) {
-              _controller.jumpTo(index);
-              _pageController.animateToPage(index,
-                  duration: Duration(milliseconds: 400),
-                  curve: Curves.decelerate);
-              setState(() {
-                indexPage = index;
-              });
-            },
-            color: Colors.white,
-            showLabel: false,
-            notchColor: Colors.black87,
-            bottomBarItems: [
-              BottomBarItem(
-                inActiveItem: Icon(
-                  Icons.calendar_month,
-                  color: Colors.blueGrey,
-                ),
-                activeItem: Icon(
-                  Icons.calendar_month,
-                  color: Colors.blueAccent,
-                ),
-                itemLabel: 'Schedule',
+    return Scaffold(
+        body: PageView(
+          controller: _pageController,
+          onPageChanged: (index) {
+            _controller.jumpTo(index);
+            setState(() {
+              indexPage = index;
+            });
+          },
+          children: List.generate(
+              bottomBarPages.length, (index) => bottomBarPages[index]),
+        ),
+        extendBody: true,
+        bottomNavigationBar: AnimatedNotchBottomBar(
+          notchBottomBarController: _controller,
+          onTap: (index) {
+            _controller.jumpTo(index);
+            _pageController.animateToPage(index,
+                duration: Duration(milliseconds: 400),
+                curve: Curves.decelerate);
+            setState(() {
+              indexPage = index;
+            });
+          },
+          color: Colors.white,
+          showLabel: false,
+          notchColor: Colors.black87,
+          bottomBarItems: [
+            BottomBarItem(
+              inActiveItem: Icon(
+                Icons.home_outlined,
+                color: Colors.blueGrey,
               ),
-              BottomBarItem(
-                inActiveItem: Icon(
-                  Icons.confirmation_number,
-                  color: Colors.blueGrey,
-                ),
-                activeItem: Icon(
-                  Icons.confirmation_number,
-                  color: Colors.blueAccent,
-                ),
-                itemLabel: 'Ticket',
+              activeItem: Icon(
+                Icons.home_outlined,
+                color: Colors.blueAccent,
               ),
-              BottomBarItem(
-                inActiveItem: Icon(
-                  Icons.person,
-                  color: Colors.blueGrey,
-                ),
-                activeItem: Icon(
-                  Icons.person,
-                  color: Colors.blueAccent,
-                ),
-                itemLabel: 'Profile',
-              )
-            ],
-          )),
-    );
+              itemLabel: 'Schedule',
+            ),
+            BottomBarItem(
+              inActiveItem: Icon(
+                Icons.confirmation_number,
+                color: Colors.blueGrey,
+              ),
+              activeItem: Icon(
+                Icons.confirmation_number,
+                color: Colors.blueAccent,
+              ),
+              itemLabel: 'Ticket',
+            ),
+            BottomBarItem(
+              inActiveItem: Icon(
+                Icons.person,
+                color: Colors.blueGrey,
+              ),
+              activeItem: Icon(
+                Icons.person,
+                color: Colors.blueAccent,
+              ),
+              itemLabel: 'Profile',
+            )
+          ],
+        ));
   }
 }
 
@@ -478,7 +502,7 @@ class _HomepageMahasiswaState extends State<HomepageMahasiswa> {
   late List<Map<String, dynamic>> listDosen = [];
   late TextEditingController searchController = TextEditingController();
   List<Map<String, dynamic>> filteredDosenList = [];
-  bool userCheck = FirebaseAuth.instance.currentUser!.emailVerified;
+  late bool userCheck = true;
 
   Future<void> fetchDosenList() async {
     List<Map<String, dynamic>> dosen = await getListDosen();
@@ -488,11 +512,22 @@ class _HomepageMahasiswaState extends State<HomepageMahasiswa> {
     });
   }
 
+  void refreshUserCheck() async {
+    await FirebaseAuth.instance.currentUser!.reload();
+    bool userCheckTmp = await FirebaseAuth.instance.currentUser!.emailVerified;
+    print("Merefresh status user");
+    setState(() {
+      userCheck = userCheckTmp;
+      print("Status user terrefresh $userCheck");
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     getCurrentUser();
     fetchDosenList();
+    refreshUserCheck();
   }
 
   void filterDosenList(String query) {
@@ -516,6 +551,24 @@ class _HomepageMahasiswaState extends State<HomepageMahasiswa> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Logika ketika tombol ditekan
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const TutorialPage()),
+          );
+        },
+        backgroundColor:
+            const Color(0xFF3687E5), // Sesuaikan dengan warna yang diinginkan
+        child: Icon(Icons.help_outline),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      bottomNavigationBar: Container(
+        color: Colors.transparent,
+        height: 100,
+      ),
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
@@ -668,8 +721,8 @@ class _HomepageMahasiswaState extends State<HomepageMahasiswa> {
                           );
                         },
                         child: Container(
-                          width: 285,
-                          height: 140,
+                          width: 400,
+                          height: 138,
                           margin: const EdgeInsets.symmetric(
                               horizontal: 50, vertical: 15),
                           padding: const EdgeInsets.only(right: 20),
@@ -742,169 +795,179 @@ class _HomepageMahasiswaState extends State<HomepageMahasiswa> {
                     ],
                   );
                 } else if (index == listDosen.length - 1) {
-                  return GestureDetector(
-                      onTap: () {
-                        idDosen = data["Email"]!;
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const AboutDosen()));
-                      },
-                      child: Container(
-                        width: 160,
-                        height: 138,
-                        margin: const EdgeInsets.only(
-                            top: 15, left: 50, bottom: 90, right: 50),
-                        decoration: BoxDecoration(
-                          color: const Color.fromRGBO(39, 55, 77, 1),
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Color.fromRGBO(0, 0, 0, .60),
-                              offset: Offset(0, 1),
-                              spreadRadius: 3,
-                              blurRadius: 7,
-                            )
-                          ],
-                        ),
-                        child: Row(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: Image.network(
-                                data["Image"] ?? 'style/img/DefaultIcon.png',
-                                width: 101,
-                                height: 138,
-                                fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) {
-                                  // Handle error loading image
-                                  return Image.asset(
-                                    'style/img/DefaultIcon.png',
+                  return Column(
+                    children: [
+                      GestureDetector(
+                          onTap: () {
+                            idDosen = data["Email"]!;
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const AboutDosen()));
+                          },
+                          child: Container(
+                            width: 400,
+                            height: 138,
+                            margin: const EdgeInsets.only(
+                                top: 15, left: 50, bottom: 90, right: 50),
+                            decoration: BoxDecoration(
+                              color: const Color.fromRGBO(39, 55, 77, 1),
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Color.fromRGBO(0, 0, 0, .60),
+                                  offset: Offset(0, 1),
+                                  spreadRadius: 3,
+                                  blurRadius: 7,
+                                )
+                              ],
+                            ),
+                            child: Row(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(8),
+                                  child: Image.network(
+                                    data["Image"] ??
+                                        'style/img/DefaultIcon.png',
                                     width: 101,
                                     height: 138,
                                     fit: BoxFit.cover,
-                                  );
-                                },
-                              ),
-                            ),
-                            const SizedBox(width: 20),
-                            Expanded(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    data["Name"]!,
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                      fontFamily: 'Quicksand',
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                    textAlign: TextAlign.center,
-                                    maxLines: 3,
+                                    errorBuilder: (context, error, stackTrace) {
+                                      // Handle error loading image
+                                      return Image.asset(
+                                        'style/img/DefaultIcon.png',
+                                        width: 101,
+                                        height: 138,
+                                        fit: BoxFit.cover,
+                                      );
+                                    },
                                   ),
-                                  Text(
-                                    data["NIM"]!,
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                      fontFamily: 'Quicksand',
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                    textAlign: TextAlign.center,
-                                    maxLines: 2,
+                                ),
+                                const SizedBox(width: 20),
+                                Expanded(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        data["Name"]!,
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 15,
+                                          fontFamily: 'Quicksand',
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                        textAlign: TextAlign.center,
+                                        maxLines: 3,
+                                      ),
+                                      Text(
+                                        data["NIM"]!,
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 15,
+                                          fontFamily: 'Quicksand',
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                        textAlign: TextAlign.center,
+                                        maxLines: 2,
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
+                                ),
+                                SizedBox(
+                                  width: 20,
+                                )
+                              ],
                             ),
-                            SizedBox(
-                              width: 20,
-                            )
-                          ],
-                        ),
-                      ));
+                          )),
+                    ],
+                  );
                 } else {
-                  return GestureDetector(
-                      onTap: () {
-                        idDosen = data["Email"]!;
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => AboutDosen()));
-                      },
-                      child: Container(
-                        width: 160,
-                        height: 138,
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 50, vertical: 15),
-                        decoration: BoxDecoration(
-                          color: const Color.fromRGBO(39, 55, 77, 1),
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Color.fromRGBO(0, 0, 0, .60),
-                              offset: Offset(0, 1),
-                              spreadRadius: 3,
-                              blurRadius: 7,
-                            )
-                          ],
-                        ),
-                        child: Row(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: Image.network(
-                                data["Image"] ?? 'style/img/DefaultIcon.png',
-                                width: 101,
-                                height: 138,
-                                fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) {
-                                  // Handle error loading image
-                                  return Image.asset(
-                                    'style/img/DefaultIcon.png',
+                  return Column(
+                    children: [
+                      GestureDetector(
+                          onTap: () {
+                            idDosen = data["Email"]!;
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AboutDosen()));
+                          },
+                          child: Container(
+                            width: 400,
+                            height: 138,
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 50, vertical: 15),
+                            decoration: BoxDecoration(
+                              color: const Color.fromRGBO(39, 55, 77, 1),
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Color.fromRGBO(0, 0, 0, .60),
+                                  offset: Offset(0, 1),
+                                  spreadRadius: 3,
+                                  blurRadius: 7,
+                                )
+                              ],
+                            ),
+                            child: Row(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(8),
+                                  child: Image.network(
+                                    data["Image"] ??
+                                        'style/img/DefaultIcon.png',
                                     width: 101,
                                     height: 138,
                                     fit: BoxFit.cover,
-                                  );
-                                },
-                              ),
-                            ),
-                            const SizedBox(width: 20),
-                            Expanded(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    data["Name"]!,
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                      fontFamily: 'Quicksand',
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                    textAlign: TextAlign.center,
-                                    maxLines: 2,
+                                    errorBuilder: (context, error, stackTrace) {
+                                      // Handle error loading image
+                                      return Image.asset(
+                                        'style/img/DefaultIcon.png',
+                                        width: 101,
+                                        height: 138,
+                                        fit: BoxFit.cover,
+                                      );
+                                    },
                                   ),
-                                  Text(
-                                    data["NIM"]!,
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                      fontFamily: 'Quicksand',
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                    textAlign: TextAlign.center,
-                                    maxLines: 2,
+                                ),
+                                const SizedBox(width: 20),
+                                Expanded(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        data["Name"]!,
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 15,
+                                          fontFamily: 'Quicksand',
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                        textAlign: TextAlign.center,
+                                        maxLines: 2,
+                                      ),
+                                      Text(
+                                        data["NIM"]!,
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 15,
+                                          fontFamily: 'Quicksand',
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                        textAlign: TextAlign.center,
+                                        maxLines: 2,
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
+                                ),
+                                SizedBox(
+                                  width: 20,
+                                )
+                              ],
                             ),
-                            SizedBox(
-                              width: 20,
-                            )
-                          ],
-                        ),
-                      ));
+                          )),
+                    ],
+                  );
                 }
               },
               childCount:
@@ -1243,7 +1306,8 @@ class EditProfilePage extends StatefulWidget {
 class _EditProfilePageState extends State<EditProfilePage> {
   late TextEditingController _nameController,
       _phoneController,
-      _genderController;
+      _genderController,
+      _nimController;
   final bool _isEditing = true;
   void selectImage() async {
     Uint8List img = await pickImage(ImageSource.gallery);
@@ -1266,13 +1330,20 @@ class _EditProfilePageState extends State<EditProfilePage> {
     bool done;
     if (_image != null) {
       String img = await uploadProfilePict(_image!);
-      done = await editCurrentUserProfile(_nameController.text,
-          _phoneController.text, _genderController.text, "21051204033", img);
+      done = await editCurrentUserProfile(
+          _nameController.text,
+          _phoneController.text,
+          _genderController.text,
+          _nimController.text,
+          img);
     } else {
-      done = await editCurrentUserProfile(_nameController.text,
-          _phoneController.text, _genderController.text, "21051204033");
+      done = await editCurrentUserProfile(
+        _nameController.text,
+        _phoneController.text,
+        _genderController.text,
+        _nimController.text,
+      );
     }
-    ;
 
     if (done) {
       Navigator.pop(context);
@@ -1290,6 +1361,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     _phoneController =
         TextEditingController(text: currentUser["Phone Number"]!);
     _genderController = TextEditingController(text: "Pria");
+    _nimController = TextEditingController(text: currentUser["NIM"] ?? '');
   }
 
   Future<bool> _onBackPressed() async {
@@ -1363,6 +1435,33 @@ class _EditProfilePageState extends State<EditProfilePage> {
               margin: const EdgeInsets.symmetric(horizontal: 22),
               child: TextField(
                 controller: _nameController,
+                enabled: _isEditing,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ),
+
+            //NIM User Container
+            const SizedBox(
+              height: 15,
+            ),
+            Container(
+                margin: const EdgeInsets.only(left: 28),
+                child: const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "NIM",
+                    style: TextStyle(
+                      fontFamily: 'Quicksand',
+                      fontSize: 15,
+                    ),
+                  ),
+                )),
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 22),
+              child: TextField(
+                controller: _nimController,
                 enabled: _isEditing,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
@@ -1495,6 +1594,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   late TextEditingController _nameController,
       _phoneController,
+      _nimController,
       _genderController;
   final bool _isEditing = false;
 
@@ -1506,6 +1606,7 @@ class _ProfilePageState extends State<ProfilePage> {
     _phoneController = TextEditingController(text: currentUser['Phone Number']);
     _genderController = TextEditingController(
         text: currentUser['Gender'] == '' ? 'Kosong' : currentUser['Gender']);
+    _nimController = TextEditingController(text: currentUser['NIM']);
   }
 
   @override
@@ -1566,6 +1667,33 @@ class _ProfilePageState extends State<ProfilePage> {
             margin: const EdgeInsets.symmetric(horizontal: 22),
             child: TextField(
               controller: _nameController,
+              enabled: _isEditing,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+              ),
+            ),
+          ),
+
+          //NIM User Container
+          const SizedBox(
+            height: 15,
+          ),
+          Container(
+              margin: const EdgeInsets.only(left: 28),
+              child: const Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "NIM",
+                  style: TextStyle(
+                    fontFamily: 'Quicksand',
+                    fontSize: 15,
+                  ),
+                ),
+              )),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 22),
+            child: TextField(
+              controller: _nimController,
               enabled: _isEditing,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
@@ -1737,6 +1865,11 @@ class _TicketMahasiswaPageState extends State<TicketMahasiswaPage> {
     setState(() {
       listTicket = tickets;
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -1935,14 +2068,22 @@ class _TicketMahasiswaPageState extends State<TicketMahasiswaPage> {
                               ElevatedButton(
                                   style: ElevatedButton.styleFrom(
                                       minimumSize: const Size(70, 15),
-                                      padding: const EdgeInsets.all(0),
-                                      backgroundColor:
-                                          const Color.fromRGBO(39, 55, 77, 1),
+                                      padding: const EdgeInsets.all(10),
+                                      backgroundColor: const Color(0xFFFF0000),
                                       shape: RoundedRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(100),
                                       )),
                                   onPressed: () {
+                                    List<String> dayOnly =
+                                        data['day'].split(' ');
+                                    DateTime schedule = DateTime.parse(
+                                        '${dayOnly[0]} ' + data['time']);
+                                    if (DateTime.now().isAfter(schedule
+                                        .subtract(Duration(hours: 1)))) {
+                                      return dialogErrorHandling(context,
+                                          "You only can cancel a ticket 1 hour before the ticket schedule.");
+                                    }
                                     if (DateTime.now().isAfter(
                                         (currentUser['Freeze Date']
                                                 as Timestamp)
@@ -1954,19 +2095,20 @@ class _TicketMahasiswaPageState extends State<TicketMahasiswaPage> {
                                           builder: (BuildContext context) {
                                             return CancelTicketDialog();
                                           });
+                                    } else {
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return FreezedWarning();
+                                          });
                                     }
-                                    showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return FreezedWarning();
-                                        });
                                   },
                                   child: Text(
                                     "Cancel",
                                     style: TextStyle(
                                       fontFamily: 'Quicksand',
-                                      color: Colors.red,
-                                      fontSize: 10,
+                                      color: Colors.white,
+                                      fontSize: 13,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   )),
@@ -2055,13 +2197,20 @@ class _TicketMahasiswaPageState extends State<TicketMahasiswaPage> {
                             ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                     minimumSize: const Size(70, 15),
-                                    padding: const EdgeInsets.all(0),
-                                    backgroundColor:
-                                        const Color.fromRGBO(39, 55, 77, 1),
+                                    padding: const EdgeInsets.all(10),
+                                    backgroundColor: const Color(0xFFFF0000),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(100),
                                     )),
                                 onPressed: () {
+                                  List<String> dayOnly = data['day'].split(' ');
+                                  DateTime schedule = DateTime.parse(
+                                      '${dayOnly[0]} ' + data['time']);
+                                  if (DateTime.now().isAfter(
+                                      schedule.subtract(Duration(hours: 1)))) {
+                                    return dialogErrorHandling(context,
+                                        "You only can cancel a ticket 1 hour before the ticket schedule.");
+                                  }
                                   ticketMahasiswaCancel =
                                       "${data['dosen']}-${data['day']}-${data['time']}";
                                   showDialog(
@@ -2074,8 +2223,8 @@ class _TicketMahasiswaPageState extends State<TicketMahasiswaPage> {
                                   "Cancel",
                                   style: TextStyle(
                                     fontFamily: 'Quicksand',
-                                    color: Colors.red,
-                                    fontSize: 10,
+                                    color: Colors.white,
+                                    fontSize: 13,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 )),

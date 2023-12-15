@@ -51,6 +51,8 @@ dependencies:
   showcaseview: ^2.0.3
   workmanager: ^0.5.2
   path_provider: ^2.1.1
+  firebase_app_check: ^0.2.1+8
+  introduction_screen: ^3.1.12
 
 dev_dependencies:
   flutter_test:
@@ -85,6 +87,15 @@ flutter:
     - style/img/Line 2.png
     - style/img/Line 4.png
     - style/img/DefaultIcon.png
+    - style/img/tutorial/dosen/dosenStep1.png
+    - style/img/tutorial/dosen/dosenStep2.jpg
+    - style/img/tutorial/dosen/dosenStep3.jpg
+    - style/img/tutorial/dosen/dosenStep4.jpg
+    - style/img/tutorial/mhs/step1.jpg
+    - style/img/tutorial/mhs/step2.jpg
+    - style/img/tutorial/mhs/step3.jpg
+    - style/img/tutorial/mhs/step4.jpg
+    - style/img/tutorial/mhs/step5.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

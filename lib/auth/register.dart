@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:informateach/dosen/tutorial/tutorial_page.dart';
+import 'package:informateach/tutorial/tutorial_page.dart';
 
 class RegisterPage extends StatefulWidget {
   final VoidCallback showLoginPage;
@@ -21,12 +23,23 @@ class _RegisterPageState extends State<RegisterPage> {
 
   //Sign Up Function
   Future signUp() async {
+    if (checkNullTextField()) {
+      return showNullValueDialog(context);
+    }
     if (passwordMatch()) {
       //MEMBUAT AKUN USER
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
+
+      if (isStudent(_emailController.text.trim())) {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => TutorialPage()));
+      } else {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => DosenTutorialPage()));
+      }
 
       String? token = await FirebaseMessaging.instance.getToken();
 
@@ -41,7 +54,221 @@ class _RegisterPageState extends State<RegisterPage> {
           token!);
 
       sendEmailVerification();
+      return showEmailVerificationSentDialog(context);
+    } else {
+      return showPassNotMatchDialog(context);
     }
+  }
+
+  // Dialog
+  // Show Email Verification Sent Dialog
+  void showEmailVerificationSentDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          insetPadding: EdgeInsets.zero,
+          backgroundColor: Colors.transparent,
+          child: Container(
+              padding: EdgeInsets.symmetric(vertical: 17),
+              height: 200,
+              width: 330,
+              decoration: ShapeDecoration(
+                  color: Color.fromARGB(255, 228, 235, 240),
+                  shape: RoundedRectangleBorder(
+                      side: BorderSide(width: 1, color: Color(0xFF27374D)),
+                      borderRadius: BorderRadius.circular(18))),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    "Email Verification Sent",
+                    style: TextStyle(
+                      fontFamily: 'Quicksand',
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                      margin: EdgeInsets.symmetric(horizontal: 30),
+                      child: Text(
+                        "Please verificate your email address to use the app",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontFamily: 'Quicksand'),
+                      )),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(70, 15),
+                          backgroundColor: const Color.fromRGBO(39, 55, 77, 1),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(100),
+                          )),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        "Back",
+                        style: TextStyle(
+                          fontFamily: 'Quicksand',
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ))
+                ],
+              )),
+        );
+      },
+    );
+  }
+
+  // Show Pass Not Match Dialog
+  void showPassNotMatchDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          insetPadding: EdgeInsets.zero,
+          backgroundColor: Colors.transparent,
+          child: Container(
+              padding: EdgeInsets.symmetric(vertical: 17),
+              height: 200,
+              width: 330,
+              decoration: ShapeDecoration(
+                  color: Color.fromARGB(255, 228, 235, 240),
+                  shape: RoundedRectangleBorder(
+                      side: BorderSide(width: 1, color: Color(0xFF27374D)),
+                      borderRadius: BorderRadius.circular(18))),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    "Register Error",
+                    style: TextStyle(
+                      fontFamily: 'Quicksand',
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                      margin: EdgeInsets.symmetric(horizontal: 30),
+                      child: Text(
+                        "Please input the right password",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontFamily: 'Quicksand'),
+                      )),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(70, 15),
+                          backgroundColor: const Color.fromRGBO(39, 55, 77, 1),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(100),
+                          )),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        "Back",
+                        style: TextStyle(
+                          fontFamily: 'Quicksand',
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ))
+                ],
+              )),
+        );
+      },
+    );
+  }
+
+  // Show Null Input Dialog
+  void showNullValueDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          insetPadding: EdgeInsets.zero,
+          backgroundColor: Colors.transparent,
+          child: Container(
+              padding: EdgeInsets.symmetric(vertical: 17),
+              height: 200,
+              width: 330,
+              decoration: ShapeDecoration(
+                  color: Color.fromARGB(255, 228, 235, 240),
+                  shape: RoundedRectangleBorder(
+                      side: BorderSide(width: 1, color: Color(0xFF27374D)),
+                      borderRadius: BorderRadius.circular(18))),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    "Register Error",
+                    style: TextStyle(
+                      fontFamily: 'Quicksand',
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                      margin: EdgeInsets.symmetric(horizontal: 30),
+                      child: Text(
+                        "Please fill all the text fields",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontFamily: 'Quicksand'),
+                      )),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(70, 15),
+                          backgroundColor: const Color.fromRGBO(39, 55, 77, 1),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(100),
+                          )),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        "Back",
+                        style: TextStyle(
+                          fontFamily: 'Quicksand',
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ))
+                ],
+              )),
+        );
+      },
+    );
   }
 
   //Create User Document Function
@@ -54,8 +281,19 @@ class _RegisterPageState extends State<RegisterPage> {
       'Phone Number': phoneNumber,
       'Student': role,
       'Token': token,
-      'Freeze Date': DateTime.now(),
+      'Freeze Date': DateTime.now().subtract(const Duration(days: 1)),
     });
+  }
+
+  //Check TextField Input
+  bool checkNullTextField() {
+    if (_emailController.text.isEmpty ||
+        _nameController.text.isEmpty ||
+        _nimController.text.isEmpty ||
+        _phoneNumberController.text.isEmpty) {
+      return true;
+    }
+    return false;
   }
 
   //Check PassWord Confirm
@@ -70,7 +308,6 @@ class _RegisterPageState extends State<RegisterPage> {
   Future<void> sendEmailVerification() async {
     User? user = FirebaseAuth.instance.currentUser;
     await user?.sendEmailVerification();
-    print('Email konfirmasi telah dikirim.');
   }
 
   //Checking User Type
