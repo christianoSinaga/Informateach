@@ -1,4 +1,4 @@
-#Fri Dec 15 16:50:47 WIB 2023
+#Tue Dec 19 20:27:57 WIB 2023
 base.0=C\:\\Users\\Iyes\\Documents\\GitHub\\informateach-clone\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
 base.1=C\:\\Users\\Iyes\\Documents\\GitHub\\informateach-clone\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes2.dex
 base.2=C\:\\Users\\Iyes\\Documents\\GitHub\\informateach-clone\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes3.dex

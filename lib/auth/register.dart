@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:informateach/dialog/dialogError.dart';
 import 'package:informateach/dosen/tutorial/tutorial_page.dart';
 import 'package:informateach/tutorial/tutorial_page.dart';
 
@@ -25,6 +26,9 @@ class _RegisterPageState extends State<RegisterPage> {
   Future signUp() async {
     if (checkNullTextField()) {
       return showNullValueDialog(context);
+    }
+    if (!_emailController.text.contains('unesa.ac.id')) {
+      return dialogErrorHandling(context, "Please use UNESA's email!");
     }
     if (passwordMatch()) {
       //MEMBUAT AKUN USER
@@ -401,7 +405,7 @@ class _RegisterPageState extends State<RegisterPage> {
               child: TextField(
                 controller: _nimController,
                 decoration: const InputDecoration(
-                  labelText: 'Insert your NIM/NIDM!',
+                  labelText: 'Insert your NIM/NIDN!',
                   border: OutlineInputBorder(),
                 ),
               ),

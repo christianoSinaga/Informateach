@@ -230,6 +230,9 @@ androidx/viewpager/widget/ViewPager$DecorView.class
 androidx/window/core/ExperimentalWindowApi.class
 androidx/window/embedding/SplitRule$LayoutDir.class
 androidx/work/ExistingPeriodicWorkPolicy.class
+com/baseflow/permissionhandler/PermissionConstants$PermissionGroup.class
+com/baseflow/permissionhandler/PermissionConstants$PermissionStatus.class
+com/baseflow/permissionhandler/PermissionConstants$ServiceStatus.class
 com/google/android/datatransport/runtime/dagger/Binds.class
 com/google/android/datatransport/runtime/dagger/BindsInstance.class
 com/google/android/datatransport/runtime/dagger/BindsOptionalOf.class

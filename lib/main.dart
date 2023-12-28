@@ -20,6 +20,7 @@ import 'package:informateach/dosen/dialog/freezed_acc.dart';
 import 'package:informateach/tutorial/tutorial_page.dart';
 import 'package:informateach/utils.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:workmanager/workmanager.dart';
 import 'firebase_options.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -79,11 +80,10 @@ Future<void> _checkPendingNotificationRequests() async {
 
   for (PendingNotificationRequest pendingNotificationRequest
       in pendingNotificationRequests) {
-    print(pendingNotificationRequest.id.toString() +
-        " " +
-        (pendingNotificationRequest.payload ?? ""));
+    print(
+        "${pendingNotificationRequest.id} ${pendingNotificationRequest.payload ?? ""}");
   }
-  print('NOW ' + tz.TZDateTime.now(tz.local).toString());
+  print('NOW ${tz.TZDateTime.now(tz.local)}');
 }
 
 Future<void> cancellAllNotif() async {
@@ -112,7 +112,7 @@ Future<void> scheduleNotification({
       NotificationDetails(android: androidPlatformChannelSpecifics);
   if (action == 'create') {
     List<String> dayOnly = day!.split(' ');
-    DateTime formatedDate = DateTime.parse(dayOnly[0] + ' ' + hour!);
+    DateTime formatedDate = DateTime.parse('${dayOnly[0]} ${hour!}');
     DateTime fixDate = formatedDate.subtract(Duration(hours: 1));
     var scheduledTime = tz.TZDateTime.from(fixDate, tz.local);
 
@@ -184,6 +184,7 @@ Future<void> checkTicketStatus() async {
         .get();
     for (var ticket in ticketRef.docs) {
       List<String> dayOnly = ticket['day'].split(' ');
+      // ignore: prefer_interpolation_to_compose_strings
       DateTime schedule = DateTime.parse('${dayOnly[0]} ' + ticket['time']);
       if (DateTime.now().isAfter(schedule.add(Duration(hours: 1))) &&
           ticket['status'] == 'Waiting for validation') {
@@ -210,7 +211,7 @@ Future<void> checkTicketStatus() async {
             });
             if (cancelledTickets == 2) {
               await studentRef.update({
-                'Freeze Date': DateTime.now().add(Duration(days: 1)),
+                'Freeze Date': DateTime.now().add(Duration(days: 21)),
               });
             }
           } else {
@@ -277,6 +278,12 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+  flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()
+      ?.requestNotificationsPermission();
 
   tz.initializeTimeZones();
   tz.setLocalLocation(tz.getLocation('Asia/Jakarta'));
@@ -323,7 +330,7 @@ Future<void> main() async {
   //BACKGROUND SITUATION
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-  Workmanager().initialize(callbackDispatcher, isInDebugMode: true);
+  Workmanager().initialize(callbackDispatcher, isInDebugMode: false);
   Workmanager().registerPeriodicTask(
     '1',
     'checkTicketStatus',
@@ -1174,9 +1181,7 @@ class _AboutDosenState extends State<AboutDosen> {
               ),
               child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(selectedDosen["Prodi"] == null
-                      ? 'Kosong'
-                      : selectedDosen["Prodi"])),
+                  child: Text(selectedDosen["Prodi"] ?? 'Kosong')),
             ),
             const SizedBox(
               height: 18,
@@ -1188,7 +1193,7 @@ class _AboutDosenState extends State<AboutDosen> {
                       left: 35,
                     ),
                     child: const Text(
-                      "NIP",
+                      "Phone Number",
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 15,
@@ -1213,7 +1218,7 @@ class _AboutDosenState extends State<AboutDosen> {
               ),
               child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(selectedDosen["NIM"]!)),
+                  child: Text(selectedDosen["Phone Number"]!)),
             ),
             const SizedBox(
               height: 18,
@@ -1225,7 +1230,7 @@ class _AboutDosenState extends State<AboutDosen> {
                       left: 35,
                     ),
                     child: const Text(
-                      "NIDN",
+                      "NIDN / NIP",
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 15,
@@ -1250,9 +1255,7 @@ class _AboutDosenState extends State<AboutDosen> {
               ),
               child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(selectedDosen["NIDN"] == null
-                      ? 'Kosong'
-                      : selectedDosen["NIDN"])),
+                  child: Text(selectedDosen["NIM"] ?? 'Kosong')),
             ),
             const SizedBox(
               height: 18,
@@ -1264,7 +1267,7 @@ class _AboutDosenState extends State<AboutDosen> {
                       left: 35,
                     ),
                     child: const Text(
-                      "E-mail UNESA",
+                      "E-mail",
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 15,

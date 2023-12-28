@@ -99,6 +99,7 @@ MERGED from [:image_picker_android] C:\Users\Iyes\Documents\GitHub\informateach-
 MERGED from [:flutter_plugin_android_lifecycle] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\flutter_plugin_android_lifecycle\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:flutter_local_notifications] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-12:12
 MERGED from [:path_provider_android] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\path_provider_android\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
+MERGED from [:permission_handler_android] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\permission_handler_android\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:flutter_keyboard_visibility] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\flutter_keyboard_visibility\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:workmanager] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\workmanager\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [com.google.firebase:firebase-appcheck-debug:17.1.1] C:\Users\Iyes\.gradle\caches\transforms-3\15f76e92889884c55ca9f14f87075674\transformed\jetified-firebase-appcheck-debug-17.1.1\AndroidManifest.xml:15:1-31:12
@@ -212,6 +213,8 @@ MERGED from [:flutter_local_notifications] C:\Users\Iyes\Documents\GitHub\inform
 MERGED from [:flutter_local_notifications] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\flutter_local_notifications\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:path_provider_android] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\path_provider_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:path_provider_android] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\path_provider_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:permission_handler_android] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\permission_handler_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:permission_handler_android] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\permission_handler_android\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:flutter_keyboard_visibility] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\flutter_keyboard_visibility\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:flutter_keyboard_visibility] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\flutter_keyboard_visibility\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:workmanager] C:\Users\Iyes\Documents\GitHub\informateach-clone\build\workmanager\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41

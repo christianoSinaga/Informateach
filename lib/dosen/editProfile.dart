@@ -21,7 +21,7 @@ class EditProfileDosen extends StatefulWidget {
 
 class _EditProfileDosenState extends State<EditProfileDosen> {
   Future<bool> editCurrentUserProfile(
-      String name, String phone, String gender, String nim,
+      String name, String phone, String gender, String nim, String prodi,
       [String? img]) async {
     try {
       User? user = FirebaseAuth.instance.currentUser;
@@ -38,6 +38,7 @@ class _EditProfileDosenState extends State<EditProfileDosen> {
             'Phone Number': phone,
             'Gender': gender,
             'NIM': nim,
+            'Prodi': prodi,
           });
         } else {
           await userDocument.update({
@@ -45,6 +46,7 @@ class _EditProfileDosenState extends State<EditProfileDosen> {
             'Phone Number': phone,
             'Gender': gender,
             'NIM': nim,
+            'Prodi': prodi,
             'Image': img,
           });
         }
@@ -72,16 +74,30 @@ class _EditProfileDosenState extends State<EditProfileDosen> {
       _phoneController,
       _nipController,
       _genderController,
-      _emailController;
+      _emailController,
+      _prodiController;
 
   void saveChanges() async {
-    String imgLink = await uploadProfilePict(img!);
-    bool done = await editCurrentUserProfile(
+    bool done;
+    if (img != null) {
+      String imgLink = await uploadProfilePict(img!);
+      done = await editCurrentUserProfile(
+          _nameController.text,
+          _phoneController.text,
+          _genderController.text,
+          _nipController.text,
+          _prodiController.text,
+          imgLink);
+    } else {
+      done = await editCurrentUserProfile(
         _nameController.text,
         _phoneController.text,
         _genderController.text,
         _nipController.text,
-        imgLink);
+        _prodiController.text,
+      );
+    }
+
     if (done) {
       Navigator.pop(context);
     }
@@ -102,6 +118,7 @@ class _EditProfileDosenState extends State<EditProfileDosen> {
     _nipController = TextEditingController(text: currentDosen["NIM"]);
     _phoneController =
         TextEditingController(text: currentDosen["Phone Number"]);
+    _prodiController = TextEditingController(text: currentDosen['Prodi']);
     _genderController =
         TextEditingController(text: currentDosen["Gender"] ?? 'Male');
   }
@@ -246,6 +263,33 @@ class _EditProfileDosenState extends State<EditProfileDosen> {
               margin: const EdgeInsets.symmetric(horizontal: 22),
               child: TextField(
                 controller: _phoneController,
+                enabled: true,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ),
+
+            //Prodi Container
+            const SizedBox(
+              height: 15,
+            ),
+            Container(
+                margin: const EdgeInsets.only(left: 28),
+                child: const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Prodi",
+                    style: TextStyle(
+                      fontFamily: 'Quicksand',
+                      fontSize: 15,
+                    ),
+                  ),
+                )),
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 22),
+              child: TextField(
+                controller: _prodiController,
                 enabled: true,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),

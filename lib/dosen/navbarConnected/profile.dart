@@ -20,7 +20,8 @@ class _ProfileDosenState extends State<ProfileDosen> {
       _phoneController,
       _nipController,
       _genderController,
-      _emailController;
+      _emailController,
+      _prodiController;
 
   @override
   void initState() {
@@ -30,6 +31,8 @@ class _ProfileDosenState extends State<ProfileDosen> {
     _nipController = TextEditingController(text: currentDosen["NIM"]);
     _phoneController =
         TextEditingController(text: currentDosen["Phone Number"]);
+    _prodiController =
+        TextEditingController(text: currentDosen['Prodi'] ?? 'Mohon Diisi');
     _genderController = TextEditingController(
         text: currentDosen["Gender"] == null
             ? 'Mohon Diisi'
@@ -175,6 +178,33 @@ class _ProfileDosenState extends State<ProfileDosen> {
               margin: const EdgeInsets.symmetric(horizontal: 22),
               child: TextField(
                 controller: _phoneController,
+                enabled: false,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ),
+
+            //Prodi Container
+            const SizedBox(
+              height: 15,
+            ),
+            Container(
+                margin: const EdgeInsets.only(left: 28),
+                child: const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Prodi",
+                    style: TextStyle(
+                      fontFamily: 'Quicksand',
+                      fontSize: 15,
+                    ),
+                  ),
+                )),
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 22),
+              child: TextField(
+                controller: _prodiController,
                 enabled: false,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),

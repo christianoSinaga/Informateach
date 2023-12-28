@@ -150,7 +150,7 @@ class _CancelTicketDialogState extends State<CancelTicketDialog> {
                     'Salah satu tiket anda DIBATALKAN oleh MAHASISWA. Ketuk untuk melihat lebih lanjut!');
             if (cancelledTickets == 2) {
               await userDocument.update({
-                'Freeze Date': DateTime.now().add(Duration(days: 1)),
+                'Freeze Date': DateTime.now().add(Duration(days: 21)),
               });
             }
           }
